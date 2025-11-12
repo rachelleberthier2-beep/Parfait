@@ -25,6 +25,35 @@ class RealisationController extends Controller
     }
 
     return view('realisations', compact('realisations', 'categories', 'category'));
+
+}
+public function create()
+{
+    return view('realisations.create');
+}
+
+public function store(Request $request)
+{
+    // Validation
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'category' => 'required|string',
+        'file_type' => 'required|string',
+        'file' => 'required|file|max:20480',
+    ]);
+
+    // Stockage du fichier
+    $path = $request->file('file')->store('images', 'public');
+
+    // Enregistrement dans la base
+    Realisation::create([
+        'title' => $request->title,
+        'category' => $request->category,
+        'file_type' => $request->file_type,
+        'file_path' => $path,
+    ]);
+
+    return redirect()->back()->with('success', 'Réalisation ajoutée avec succès !');
 }
 
 }
