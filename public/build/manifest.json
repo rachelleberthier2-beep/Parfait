@@ -1,0 +1,24 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-DVmYRF0Q.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/css/panneau.css": {
+    "file": "assets/panneau-KF24yC8H.css",
+    "src": "resources/css/panneau.css",
+    "isEntry": true,
+    "names": [
+      "panneau.css"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-CvgioS1y.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  }
+}
