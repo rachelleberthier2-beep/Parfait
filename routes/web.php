@@ -19,6 +19,6 @@ Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/send-email', [MailController::class, 'sendEmail'])->name('send.email');
 Route::get('/realisations/create', [RealisationController::class, 'create'])->name('realisations.create');
 Route::post('/realisations', [RealisationController::class, 'store'])->name('realisations.store');
-Route::get('/blog/create', [BlogController::class, 'create'])->name('blog.create');
-Route::post('/blog', [BlogController::class, 'store'])->name('blog.store');
+Route::get('/post/create', [BlogController::class, 'create'])->name('post.create');
+Route::post('/post', [BlogController::class, 'store'])->name('post.store');
 
