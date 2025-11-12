@@ -51,8 +51,7 @@ public function store(Request $request)
         'title' => 'required|string|max:255',
         'content' => 'required|string',
         'category' => 'required|string',
-        'image' => 'required|file|mimes:jpg,jpeg,png|max:5120',
-
+        'file' => 'required|image|mimes:jpg,jpeg,png|max:5120',
     ]);
 
     // Stocker l’image
@@ -68,5 +67,6 @@ public function store(Request $request)
 
     return redirect()->back()->with('success', 'Article ajouté avec succès !');
 }
+
 
 }

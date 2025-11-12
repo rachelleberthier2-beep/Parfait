@@ -44,9 +44,8 @@
         {{-- Image --}}
         <div class="mb-4">
             <label class="font-semibold block mb-1">Image (JPG uniquement)</label>
-            <input type="file" name="file" accept="blog/jpg, blog/jpeg, blog/png" 
+           <input type="file" name="file" accept="image/jpg, image/jpeg, image/png" 
        class="w-full border p-2 rounded" required>
-
         </div>
 
         <button class="px-6 py-2 bg-blue-600 text-white rounded">
