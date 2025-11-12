@@ -39,6 +39,12 @@ class BlogController extends Controller
         return view('blog-show', compact('post'));
     }
 
+    public function __construct()
+{
+    $this->middleware('auth')->only(['create', 'store']);
+}
+
+
     public function create()
 {
     return view('post.create');
