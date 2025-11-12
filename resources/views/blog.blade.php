@@ -37,6 +37,8 @@
             </button>
         </div>
     @endif
+    {{-- pagination --}}
+    {{ $posts->links() }}
 
 </section>
 @endsection

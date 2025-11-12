@@ -21,7 +21,7 @@ class RealisationController extends Controller
         })->latest()->get();
     } else {
         $category = null;
-        $realisations = Realisation::latest()->get()->pagi;
+        $realisations = Realisation::paginate(6);
     }
 
     return view('realisations', compact('realisations', 'categories', 'category'));
