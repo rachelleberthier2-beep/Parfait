@@ -44,7 +44,7 @@
         {{-- Image --}}
         <div class="mb-4">
             <label class="font-semibold block mb-1">Image (JPG uniquement)</label>
-            <input type="file" name="image" accept="image/jpg, image/jpeg, image/png" 
+            <input type="file" name="file" accept="blog/jpg, blog/jpeg, blog/png" 
        class="w-full border p-2 rounded" required>
 
         </div>
