@@ -62,7 +62,7 @@ public function store(Request $request)
         'title' => $request->title,
         'content' => $request->content,
         'category' => $request->category,
-        'image_path' => $path,
+        'image' => $path,
     ]);
 
     return redirect()->back()->with('success', 'Article ajouté avec succès !');
