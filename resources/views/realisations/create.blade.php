@@ -1,4 +1,6 @@
-<form action="{{ route('realisations.store') }}" method="POST" enctype="multipart/form-data" class="max-w-xl mx-auto bg-white p-8 rounded-xl shadow-lg">
+<form action="{{ route('realisations.store') }}" method="POST" enctype="multipart/form-data"
+    class="max-w-xl mx-auto p-8 rounded-xl shadow-lg"
+    style="background-color: #17e5f3;">
   @csrf
 
   <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Ajouter une Réalisation</h2>
@@ -59,9 +61,8 @@
 
   <button
     type="submit"
-    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300"
+    class="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 rounded-lg transition duration-300"
   >
     Ajouter
   </button>
 </form>
-
