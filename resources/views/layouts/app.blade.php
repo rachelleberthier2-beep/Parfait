@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1, user-scalable=no">
     <title>@yield('title', 'Mon Site')</title>
     @vite(['resources/css/app.css', 'resources/css/panneau.css' , 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -84,19 +84,19 @@
 
 
     {{-- CONTENU DES PAGES --}}
-    <main>
+    <main class="overflow-x-hidden">
         @yield('content')
     </main>
 
     {{-- FOOTER --}}
     <footer class="text-gray-300 pt-16" style="background-color: #000000">
-  <div class="max-w-7xl mx-auto px-6  gap-x-30">
+  <div class="max-w-7xl md:mx-auto px-6  gap-x-30">
 
     {{-- Section Call to Action --}}
-    <div class="p-10 mb-16 text-center text-white">
-      <h2 class="text-3xl font-bold mb-4">Prêt à développer votre communication ?</h2>
+    <div class="p-10  mb-16 text-center text-white">
+      <h2 class=" text-2xl md:text-3xl font-bold mb-4">Prêt à développer votre communication ?</h2>
       <p class="mb-8 max-w-xl mx-auto">Discutons de votre projet et créons ensemble une stratégie de communication efficace</p>
-      <a href="{{ route('contact') }}" class="inline-block  text-white-100 font-semibold px-8 py-3 rounded-md hover:bg-gray-100 transition" style="background-color: #17e5f3;">
+      <a href="{{ route('contact') }}" class="inline-block  text-black font-bold px-8 py-3 rounded-md  transition" style="background-color: #17e5f3;">
         Démarrer un projet
       </a>
     </div>
@@ -157,7 +157,7 @@
 <script>
   AOS.init({
     duration: 1000, // Durée en ms
-    once: false,     // Animation une seule fois
+    once: true,     // Animation une seule fois
   });
 </script>
 

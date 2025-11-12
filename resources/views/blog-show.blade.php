@@ -3,9 +3,9 @@
 @section('title', $post->title)
 
 @section('content')
-<section class="py-20 text-center bg-gray-50">
-    <h1 class="text-4xl font-bold mb-4">{{ $post->title }}</h1>
-    <p class="text-gray-500">{{ $post->category }}</p>
+<section class="bg-[#000000] text-center py-16 min-h-[250px] md:min-h-[300px] flex flex-col justify-center">
+    <h1 class="text-4xl  md:text-5xl text-white font-bold mb-4">{{ $post->title }}</h1>
+    <p class="max-w-3xl mx-auto  text-1xl md:text-2xl text-white">{{ $post->category }}</p>
 </section>
 
 <section class="py-16 max-w-4xl mx-auto px-6 text-left">

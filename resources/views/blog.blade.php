@@ -3,8 +3,8 @@
 @section('title', 'Blog')
 
 @section('content')
-<section class="py-20 text-center bg-[#000000] min-h-[300px] flex flex-col justify-center">
-    <h1 class="text-5xl text-white font-bold mb-4">Mon Blog</h1>
+<section class="py-20 text-center bg-[#000000] min-h-[250px] md:min-h-[300px] flex flex-col justify-center">
+    <h1 class=" text-4xl  md:text-5xl text-white font-bold mb-4">Mon Blog</h1>
 </section>
 
 <section class="py-16 max-w-6xl mx-auto px-6">

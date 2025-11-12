@@ -6,28 +6,30 @@
     {{-- SECTION 1 : Hero --}}
     <section class="max-w-8xl mx-auto px-8 py-20 bg-gray-50  mt-20">
   <div class="flex flex-col md:flex-row items-center md:space-x-16 max-w-6xl mx-auto ">
-    <div class="flex-1 text-left max-w-6xl text-justify ">
-      <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-6 text-gray-900">
-        Votre partenaire de <span style="color: #17e5f3;">communication créatif</span> au Bénin pour des projets uniques et impactants
-      </h1>
-      <p class="text-gray-600 text-lg md:text-xl mb-2 leading-relaxed">
-        Basé au Bénin, je mets ma passion et mes compétences à votre service pour vous aider à atteindre vos objectifs.
-      </p>
-      <p class="text-gray-600 text-lg md:text-xl  leading-relaxed mb-6 ">
-        Des réalisations visuelles inspirantes, un accompagnement sur-mesure, et un engagement total pour vos projets.
-      </p>
-      <div>
-        <a href="{{ route('realisations') }}" class="inline-block  text-white px-6 py-3 rounded-lg shadow-xl hover:bg-blue-700 transition" style="background-color: #17e5f3;">
-          Voir mes réalisations
-        </a>
-        <a href="{{ route('contact') }}" class="inline-block  text-black px-6 py-3 rounded-lg shadow-xl hover:bg-blue-700 transition" style="background-color: #ffffff;">
-          Me contacter
-        </a>
-      </div>
-    </div>
-    <div class="flex-1 mt-10 md:mt-0 ms-5  w-10 h-100 md:w-250 relative md:h-150">
+    <div class="flex-1 w-full max-w-full md:max-w-6xl px-4 md:px-0 text-left text-justify mx-auto">
+  <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-6 text-gray-900">
+    Votre partenaire de <span class="text-[#17e5f3]">communication créatif</span> au Bénin pour des projets uniques et impactants
+  </h1>
+  <p class="text-gray-600 text-base sm:text-lg md:text-xl mb-2 leading-relaxed">
+    Basé au Bénin, je mets ma passion et mes compétences à votre service pour vous aider à atteindre vos objectifs.
+  </p>
+  <p class="text-gray-600 text-base sm:text-lg md:text-xl leading-relaxed mb-6">
+    Des réalisations visuelles inspirantes, un accompagnement sur-mesure, et un engagement total pour vos projets.
+  </p>
+
+  <div class="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
+    <a href="{{ route('realisations') }}" class="inline-block w-max text-black px-6 py-3 rounded-lg shadow-xl  bg-[#17e5f3]">
+      Mes réalisations
+    </a>
+    <a href="{{ route('contact') }}" class="inline-block w-max text-black px-6 py-3 rounded-lg shadow-xl  bg-white">
+      Me contacter
+    </a>
+  </div>
+</div>
+
+    <div class="flex-1 mt-10 md:mt-0 ms-5  w-100  md:w-250 relative md:h-150">
       <div class="absolute inset-0 bg-blue-300 rounded-lg opacity-10 -translate-x-2 -translate-y-0 rotate-10 scale-y-100"></div>
-      <img src="{{ asset('images/tools/Moi 6.jpg') }}" alt="Profile" class="rounded-2xl shadow-xl  md:object-cover w-150 h-150 relative z-10">
+      <img src="{{ asset('images/tools/Moi 6.jpg') }}" alt="Profile" class="rounded-2xl shadow-xl w-250 h-100 object-cover md:object-cover  md:w-150 md:h-150 relative z-10">
     </div>
 
   </div>
@@ -35,7 +37,7 @@
 
 
 
-<section class="relative max-w-8xl mx-auto overflow-hidden">
+<section class="relative max-w-8xl mx-auto">
     <!-- Image de fond -->
     <img src="{{ asset('images/tools/fond.jpeg') }}" alt="fond" class="w-full block">
 
@@ -112,20 +114,20 @@
             Je suis votre partenaire créatif pour tous vos projets visuels : affiches, bannières, publications pour les réseaux sociaux... 
             Nous pouvons créer ensemble, des designs qui ne sont pas seulement beaux, mais qui racontent votre histoire et atteignent vos objectifs. &rdquo;</p>
 
-<ul>Pourquoi choisir mes services ? 
+      <ul>Pourquoi choisir mes services ? 
 
-<li><strong>Créativité & originalité :</strong>Chaque création est unique et adaptée à votre identité. </li>
+         <li><strong>Créativité & originalité :</strong>Chaque création est unique et adaptée à votre identité. </li>
 
-<li><strong>Qualité professionnelle : </strong>Des designs soignés pour refléter le meilleur de votre marque. </li>
+         <li><strong>Qualité professionnelle : </strong>Des designs soignés pour refléter le meilleur de votre marque. </li>
 
-<li><strong> Réactivité :</strong> Un service rapide et efficace, respectant vos délais. </li>
+         <li><strong> Réactivité :</strong> Un service rapide et efficace, respectant vos délais. </li>
 
-<li><strong> Écoute attentive :</strong>Une compréhension approfondie de vos besoins pour des résultats parfaitement alignés avec vos attentes. 👂</li>
-</ul>
+         <li><strong> Écoute attentive :</strong>Une compréhension approfondie de vos besoins pour des résultats parfaitement alignés avec vos attentes.</li>
+      </ul>
 
-  <p>Contactez-moi dès aujourd'hui pour discuter de votre projet et obtenir un devis personnalisé.<br>
+      <p>Contactez-moi dès aujourd'hui pour discuter de votre projet et obtenir un devis personnalisé.<br>
 
-Vous méritez ce qu'il y a de mieux parceque vous êtes une personne de marque ! </p>",
+                    Vous méritez ce qu'il y a de mieux parceque vous êtes une personne de marque ! </p>",
                     ],
                     [
                         'id' => 'service3',
@@ -203,7 +205,7 @@ Vous méritez ce qu'il y a de mieux parceque vous êtes une personne de marque !
          <li><strong>Qualité professionnelle</strong> et finitions variées</li>
          <li><strong>Livraison rapide</strong> ou retrait sur place</li>
       </ul>
-        <p> Faites briller votre image partout où vous allez !</p>",
+      <p> Faites briller votre image partout où vous allez !</p>",
                     ],
                     [
                         'id' => 'service6',
@@ -213,12 +215,12 @@ Vous méritez ce qu'il y a de mieux parceque vous êtes une personne de marque !
                         'modal_content' => "<p>
           &ldquo; Transformez vos séquences brutes en vidéos percutantes !  
           Je vous propose un montage professionnel pour vos contenus YouTube, événements, vidéos promotionnelles et plus encore. &rdquo; </p>
-<ul>
-  <li><strong>Effets dynamiques</strong> et transitions fluides</li>
-  <li><strong>Ajout de musiques, voix-off, sous-titres</strong></li>
-  <li><strong>Optimisation pour les réseaux sociaux</strong></li>
-</ul>
-<p>Faites de vos idées une réalité audiovisuelle !</p>",
+      <ul>
+         <li><strong>Effets dynamiques</strong> et transitions fluides</li>
+         <li><strong>Ajout de musiques, voix-off, sous-titres</strong></li>
+         <li><strong>Optimisation pour les réseaux sociaux</strong></li>
+      </ul>
+      <p>Faites de vos idées une réalité audiovisuelle !</p>",
                     ],
                 ];
             @endphp
@@ -238,9 +240,7 @@ Vous méritez ce qu'il y a de mieux parceque vous êtes une personne de marque !
     type="button" 
     class="mt-6 inline-block text-[#17e5f3] px-6 py-2 rounded-lg  transition"
     onclick="event.stopPropagation(); openModal('{{ $service['id'] }}')"
-
 >
-
     Voir plus  <span class="ml-2">→</span>
 </button>
 
@@ -253,36 +253,38 @@ Vous méritez ce qu'il y a de mieux parceque vous êtes une personne de marque !
    @foreach($services as $service)
 <div 
   id="{{ $service['id'] }}" 
-  class="fixed inset-0  flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 z-50"
-  onclick="closeModal('{{ $service['id'] }}')">
-
-  <div 
-    class="bg-white rounded-2xl p-6 sm:p-8 w-11/12 sm:w-3/4 md:w-3/3 lg:w-2/2 xl:w-3/5 max-h-[90vh] overflow-y-auto relative transform scale-95 transition-transform duration-300 shadow-xl space-y-4 text-justify"
-    onclick="event.stopPropagation()">
-
-    <!-- Bouton de fermeture -->
-<button 
-  class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-3xl font-bold leading-none 
-         border border-[1px] border-gray-300  rounded-none px-2 py-0.5 transition-all duration-300"
+  class="fixed inset-0 flex items-center justify-center  opacity-0 pointer-events-none transition-opacity duration-300 z-50"
   onclick="closeModal('{{ $service['id'] }}')"
 >
-  &times;
-</button>
-
-
-
+  <div 
+    class="bg-white rounded-2xl p-4 sm:p-6 md:p-8 w-11/12 sm:w-3/4 md:w-2/3 lg:w-3/4 xl:w-3/5 max-h-[90vh] overflow-y-auto relative transform scale-95 transition-transform duration-300 shadow-xl space-y-4 text-justify"
+    onclick="event.stopPropagation()"
+  >
+    <!-- Bouton de fermeture -->
+    <button 
+      class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-3xl font-bold leading-none 
+             border border-gray-300 rounded px-2 py-0.5 transition-all duration-300"
+      onclick="closeModal('{{ $service['id'] }}')"
+      aria-label="Fermer modal"
+    >
+      &times;
+    </button>
 
     <!-- Titre -->
-    <h3 class="text-xl sm:text-2xl font-bold mb-4 text-gray-800 ">{{ $service['title'] }}</h3>
+    <h3 class="text-lg sm:text-xl md:text-2xl font-bold mb-4 text-gray-800">{{ $service['title'] }}</h3>
 
     <!-- Barre décorative -->
-    <div class="h-1 w-95 lg:w-185 bg-gradient-to-r from- #17e5f3 to- #17e5f3 mx-auto mb-6 rounded-full" style="background-color: #17e5f3;"></div>
+    <div class="h-1 w-full bg-gradient-to-r from-[#17e5f3] to-[#17e5f3] mb-6 rounded-full"></div>
+
 
     <!-- Contenu -->
-    <p class="text-gray-600 text-lg md:text-xl  leading-relaxed  text-justify  mb-5">{!! $service['modal_content'] !!}</p>
+    <div class="text-gray-600 text-base sm:text-lg md:text-xl leading-relaxed mb-5">
+      {!! $service['modal_content'] !!}
+    </div>
   </div>
 </div>
 @endforeach
+
 
 </section>
 
@@ -495,60 +497,66 @@ Vous méritez ce qu'il y a de mieux parceque vous êtes une personne de marque !
           [
             'quote' => "Grâce à ses conseils et son accompagnement,
                nous avons gagné de nombreux clients et notre présence digitale est devenue beaucoup plus cohérente et professionnelle.",
-            'name' => "Alice Dupont",
-            'role' => "CEO, StartupX",
-            'avatar' => "https://randomuser.me/api/portraits/women/44.jpg",
+            'name' => "Alice",
+            'role' => "Entrepreneur",
+            'src' => "images/tools/Femme.png",
           ],
           [
-            'quote' => "Toujours à l’écoute et très créatif, Parfait Communication m’a aidé à transformer mon image en ligne et
-               à toucher mon audience de manière efficace.",
-            'name' => "Marc Lefèvre",
-            'role' => "Directeur Marketing, MarketPlus",
-            'avatar' => "https://randomuser.me/api/portraits/men/46.jpg",
+            'quote' => "Toujours à l’écoute et très créatif, Parfait Communication a aidé  notre agence à transformer son image en ligne et
+               à toucher son audience de manière efficace.",
+            'name' => "Heragem",
+            'role' => "CEO agence de communication",
+            'src' => "images/tools/Heragem.jpg",
           ],
           [
             'quote' => "Une collaboration fluide et professionnelle. 
-        Les contenus créés sont créatifs, pertinents et ont vraiment amélioré notre engagement en ligne.",
+               Les contenus créés sont créatifs, pertinents et ont vraiment amélioré notre engagement en ligne.",
             'name' => "Sophie Martin",
             'role' => "Fondatrice, CréaDesign",
             'avatar' => "https://randomuser.me/api/portraits/women/65.jpg",
           ],
           [
             'quote' => "Professionnalisme, réactivité et créativité, tout y est. Merci Parfait !",
-            'name' => "Julien Moreau",
-            'role' => "Chef de projet, Innovatech",
-            'avatar' => "https://randomuser.me/api/portraits/men/52.jpg",
+            'name' => "Bell'Aube HOUINATO",
+            'role' => "CEO Wakili Subaka et ancien Directeur Régional de Plan International",
+            'src' => "images/tools/Bell'Aube.jpg",
           ],
         ];
       @endphp
 
       @foreach($testimonials as $t)
-      <div class="bg-white p-8 rounded-lg shadow-xl flex flex-col justify-between min-h-[320px]"  data-aos="fade-up">
-        
-        {{-- Étoiles --}}
-        <div class="flex justify-center mb-6 space-x-1" style="color: #17e5f3;">
-          @for ($i = 0; $i < 5; $i++)
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 20 20" stroke="none">
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.963a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.39 2.462a1 1 0 00-.364 1.118l1.287 3.963c.3.922-.755 1.688-1.54 1.118L10 13.347l-3.39 2.462c-.784.57-1.838-.196-1.54-1.118l1.287-3.963a1 1 0 00-.364-1.118L3.602 9.39c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.963z" />
-            </svg>
-          @endfor
-        </div>
-
-        <p class="text-gray-600 text-lg md:text-xl italic mb-8 leading-relaxed">“{{ $t['quote'] }}”</p>
-        
-        <div class="flex items-center space-x-6">
-          <img src="{{ $t['avatar'] }}" alt="{{ $t['name'] }}" class="w-16 h-16 rounded-full object-cover border-2 border-blue-600" />
-
-          {{-- Ligne verticale --}}
-          <div class="border-l border-gray-300 h-16"></div>
-
-          <div class="text-left">
-            <p class="font-semibold text-gray-900">{{ $t['name'] }}</p>
-            <p class="text-gray-600 text-lg md:text-xl">{{ $t['role'] }}</p>
+        <div class="bg-white p-8 rounded-lg shadow-xl flex flex-col justify-between min-h-[320px]" data-aos="fade-up">
+          
+          {{-- Étoiles --}}
+          <div class="flex justify-center mb-6 space-x-1" style="color: #17e5f3;">
+            @for ($i = 0; $i < 5; $i++)
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.963a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.39 2.462a1 1 0 00-.364 1.118l1.287 3.963c.3.922-.755 1.688-1.54 1.118L10 13.347l-3.39 2.462c-.784.57-1.838-.196-1.54-1.118l1.287-3.963a1 1 0 00-.364-1.118L3.602 9.39c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.963z" />
+              </svg>
+            @endfor
           </div>
-        </div>
 
-      </div>
+          <p class="text-gray-600 text-lg md:text-xl italic mb-8 leading-relaxed">“{{ $t['quote'] }}”</p>
+          
+          <div class="flex items-center space-x-6">
+           
+            {{-- Gestion des images locales ou externes --}}
+            @if(isset($t['src']))
+              <img src="{{ asset($t['src']) }}" alt="{{ $t['name'] }}" class="w-16 h-16 rounded-full object-contain border-2 border-[#17e5f3]" />
+            @else
+              <img src="{{ $t['avatar'] }}" alt="{{ $t['name'] }}" class="w-16 h-16 rounded-full object-cover border-2 border-[#17e5f3]" />
+            @endif
+      
+            {{-- Ligne verticale --}}
+            <div class="border-l border-gray-300 h-16"></div>
+
+            <div class="text-left">
+              <p class="font-semibold text-gray-900">{{ $t['name'] }}</p>
+              <p class="text-gray-600 text-lg md:text-xl">{{ $t['role'] }}</p>
+            </div>
+          </div>
+
+        </div>
       @endforeach
 
     </div>

@@ -4,16 +4,16 @@
 
 @section('content')
 <section 
-  class="min-h-[500px] py-20 text-center relative bg-gray-50 flex items-center" 
-  style="background-image: url('{{ asset('images/tools/Moi.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;"
+  class=" min-h-[200px] md:min-h-[640px] py-20 text-center relative bg-gray-50 flex items-center" 
+  style="background-image: url('{{ asset('images/tools/Moi.jpg') }}'); background-size: cover; md:background-size: cover; background-position: center; background-repeat: no-repeat;"
 >
   <!-- Superposition sombre pour améliorer la lisibilité -->
   <div class="absolute inset-0 bg-black opacity-40"></div>
 
   <!-- Contenu au-dessus de la superposition -->
   <div class="relative max-w-3xl mx-auto text-white">
-    <h1 class="text-5xl font-bold mb-4">Contactez-moi</h1>
-    <p class="text-white text-2xl">Remplissez le formulaire ci-dessous pour me laisser un message.</p>
+    <h1 class=" text-4xl  md:text-5xl font-bold mb-4">Contactez-moi</h1>
+    <p class="text-white text-1xl md:text-2xl">Remplissez le formulaire ci-dessous pour me laisser un message.</p>
   </div>
 </section>
 
@@ -51,7 +51,7 @@
     </div>
 
     <button type="submit"
-            class="text-white px-6 py-3 rounded-md hover:bg-blue-700 transition  text-gray-600 text-lg md:text-xl" style="background-color: #00708c;">
+            class="text-black font-bold px-6 py-3 rounded-md hover:bg-blue-700 transition  text-gray-600 text-lg md:text-xl" style="background-color: #17e5f3;">
       Envoyer
     </button>
 </form>
@@ -62,10 +62,15 @@
         <div class="bg-white p-6 rounded-lg shadow-md  min-h-[150px] py-12">
             <div class="flex items-center space-x-4 mb-6">
               {{-- Cercle coloré --}}
-               <div class="w-20 h-20 rounded-full" style="background-color: #00708c;"></div>
+               <div class="w-20 h-20 rounded-full overflow-hidden">
+                  <img 
+                     src="{{ asset('images/tools/Parfait.png') }}"
+                     class="object-cover  w-20 h-20"
+                  />
+               </div>
 
                   {{-- Texte --}}
-               <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Parfait Tozo</h2>
+               <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Parfait TOZO</h2>
             </div>
             <p class="text-gray-600 text-lg md:text-xl leading-relaxed">
                Expert en communication digitale, je vous accompagne pour booster votre visibilité et créer des stratégies efficaces adaptées à vos besoins.
@@ -99,7 +104,7 @@
                     <img src="{{ asset('images/tools/icons8-l.png') }}" alt="Profile" class="md:object-contain w-6 h-6">
 
         </a>
-      <span class="text-gray-600 text-lg md:text-xl">123 Rue Exemple, Cotonou, Bénin</span>
+      <span class="text-gray-600 text-lg md:text-xl">Cotonou, Bénin</span>
     </li>
   </ul>
 </div>

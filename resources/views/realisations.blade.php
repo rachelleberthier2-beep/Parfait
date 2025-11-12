@@ -3,9 +3,9 @@
 @section('title', 'Réalisations')
 
 @section('content')
-<section class="py-20 text-center bg-[#000000] min-h-[300px] flex flex-col justify-center">
-    <h1 class="text-5xl  text-white font-bold mb-4 ">Mes Réalisations</h1>
-    <p class="text-white text-2xl">Découvrez ci dessous mes réalisations les plus marquants</p>
+<section class="py-20 text-center bg-[#000000] min-h-[250px] md:min-h-[300px] flex flex-col justify-center">
+    <h1 class=" text-4xl md:text-5xl  text-white font-bold mb-4 ">Mes Réalisations</h1>
+    <p class="text-white text-1xl md:text-2xl">Découvrez ci dessous mes réalisations les plus marquants</p>
 </section>
 
 <section class="py-20">
@@ -34,8 +34,8 @@
             </div>
 
             <div class="bg-white rounded-xl shadow hover:shadow-lg transition p-6 flex flex-col items-center justify-center group">
-                <img src="{{ asset('images/tools/Adobe-Logo-PNG-Design-Brand-Transparent.png') }}" alt="MySQL" class="w-16 h-16 object-contain mb-3 group-hover:scale-110 transition-transform duration-300">
-                <p class="text-gray-700 font-semibold text-sm">Design</p>
+                <img src="{{ asset('images/tools/lightroom.png') }}" alt="MySQL" class="w-16 h-16 object-contain mb-3 group-hover:scale-110 transition-transform duration-300">
+                <p class="text-gray-700 font-semibold text-sm">Lightroom</p>
             </div>
 
             <div class="bg-white rounded-xl shadow hover:shadow-lg transition p-6 flex flex-col items-center justify-center group">
@@ -114,7 +114,6 @@
     </div>
 </div>
 
-
 @endsection
 
 
@@ -152,6 +151,5 @@
         content.innerHTML = '';
     }
 </script>
-
 
 @endsection
