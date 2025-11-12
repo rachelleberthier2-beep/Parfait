@@ -1,3 +1,8 @@
+@extends('layouts.app')
+
+@section('title', 'Créate')
+
+@section('content')
 <!-- Conteneur avec centrage horizontal et marge haute -->
 <div class="min-h-screen flex justify-center pt-16 bg-gray-100 px-4">
   <!-- Div contenant le formulaire et la couleur de fond -->
@@ -70,3 +75,5 @@
     </form>
   </div>
 </div>
+
+@endsection
