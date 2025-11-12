@@ -60,6 +60,7 @@ public function store(Request $request)
     // Enregistrer dans la base
     Post::create([
         'title' => $request->title,
+        'except' => $request->input('except'),  // ajout de la colonne except
         'content' => $request->content,
         'category' => $request->category,
         'image' => $path,
