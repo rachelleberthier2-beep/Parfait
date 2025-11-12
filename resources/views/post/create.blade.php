@@ -24,6 +24,12 @@
             <input type="text" name="title" class="w-full border p-2 rounded" required>
         </div>
 
+        {{-- Except --}}
+        <div class="mb-4">
+            <label class="font-semibold block mb-1">Description</label>
+            <input type="text" name="except" class="w-full border p-2 rounded">
+        </div>
+
         {{-- Contenu --}}
         <div class="mb-4">
             <label class="font-semibold block mb-1">Contenu</label>
