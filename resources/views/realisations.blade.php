@@ -121,6 +121,7 @@
 @section('scripts')
 <script>
     function openModal(type, url) {
+        console.log("openModal called with", type, url);
         const modal = document.getElementById('modal');
         const content = document.getElementById('modal-content');
         let html = '';
