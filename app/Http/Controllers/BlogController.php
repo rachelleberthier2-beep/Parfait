@@ -51,12 +51,12 @@ public function store(Request $request)
         'title' => 'required|string|max:255',
         'content' => 'required|string',
         'category' => 'required|string',
-        'image' => 'required|image|mimes:jpg,jpeg,png|max:5120',
+        'image' => 'required|file|mimes:jpg,jpeg,png|max:5120',
 
     ]);
 
     // Stocker l’image
-    $path = $request->file('image')->store('blog', 'public');
+    $path = $request->file('file')->store('blog', 'public');
 
     // Enregistrer dans la base
     Post::create([
