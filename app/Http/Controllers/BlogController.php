@@ -59,7 +59,7 @@ public function store(Request $request)
     $path = $request->file('image')->store('blog', 'public');
 
     // Enregistrer dans la base
-    Blog::create([
+    Post::create([
         'title' => $request->title,
         'content' => $request->content,
         'category' => $request->category,
