@@ -76,7 +76,7 @@
 
   <form method="POST" action="{{ route('logout') }}" class="w-full max-w-xl">
       @csrf
-      <button type="submit" class="w-full px-6 py-3 bg-red-600 text-white font-semibold rounded-2xl hover:bg-red-700 transition duration-300 shadow-md">
+      <button type="submit" class="w-full px-6 py-3 bg-red-600 text-black font-semibold rounded-2xl hover:bg-red-700 transition duration-300 shadow-md">
           Se déconnecter
       </button>
   </form>
