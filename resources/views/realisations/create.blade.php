@@ -3,15 +3,16 @@
 @section('title', 'Créer une Réalisation')
 
 @section('content')
-<div class="min-h-screen flex justify-center items-start pt-20 bg-gradient-to-b from-cyan-400 to-blue-500 px-4">
-  <div class="max-w-xl w-full bg-white rounded-3xl shadow-2xl p-12 ring-1 ring-blue-600">
+<div class="min-h-screen flex flex-col justify-start items-center pt-20 bg-gradient-to-b from-cyan-400 to-blue-500 px-4">
+
+  <div class="max-w-xl w-full bg-white rounded-3xl shadow-2xl p-12 ring-1 ring-blue-600 mb-8">
     <form action="{{ route('realisations.store') }}" method="POST" enctype="multipart/form-data" novalidate>
       @csrf
 
       <h2 class="text-4xl font-extrabold mb-12 text-center text-blue-900 tracking-tight">Ajouter une Réalisation</h2>
 
       <div class="mb-8">
-        <label for="title" class="block text-blue-900 font-semibold mb-3 text-lg">Titre</label>
+        <label for="title" class="block text-blue-900 font-semibold mb-3 text-lg">Titre <span class="text-red-500">*</span></label>
         <input
           type="text"
           name="title"
@@ -23,7 +24,7 @@
       </div>
 
       <div class="mb-8">
-        <label for="category" class="block text-blue-900 font-semibold mb-3 text-lg">Catégorie</label>
+        <label for="category" class="block text-blue-900 font-semibold mb-3 text-lg">Catégorie <span class="text-red-500">*</span></label>
         <select
           name="category"
           id="category"
@@ -39,7 +40,7 @@
       </div>
 
       <div class="mb-8">
-        <label for="file_type" class="block text-blue-900 font-semibold mb-3 text-lg">Type de fichier</label>
+        <label for="file_type" class="block text-blue-900 font-semibold mb-3 text-lg">Type de fichier <span class="text-red-500">*</span></label>
         <select
           name="file_type"
           id="file_type"
@@ -54,7 +55,7 @@
       </div>
 
       <div class="mb-10">
-        <label for="file" class="block text-blue-900 font-semibold mb-3 text-lg">Fichier</label>
+        <label for="file" class="block text-blue-900 font-semibold mb-3 text-lg">Fichier <span class="text-red-500">*</span></label>
         <input
           type="file"
           name="file"
@@ -72,11 +73,13 @@
       </button>
     </form>
   </div>
-<form method="POST" action="{{ route('logout') }}">
-    @csrf
-    <button type="submit">Se déconnecter</button>
-</form>
 
+  <form method="POST" action="{{ route('logout') }}" class="w-full max-w-xl">
+      @csrf
+      <button type="submit" class="w-full px-6 py-3 bg-red-600 text-white font-semibold rounded-2xl hover:bg-red-700 transition duration-300 shadow-md">
+          Se déconnecter
+      </button>
+  </form>
 
 </div>
 @endsection
