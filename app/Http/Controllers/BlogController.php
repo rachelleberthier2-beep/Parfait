@@ -7,7 +7,11 @@ use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
-
+    public function __construct()
+    {
+        // Protéger uniquement create et store
+        $this->middleware('auth')->only(['create', 'store']);
+    }
 
     public function index(Request $request)
     {
@@ -33,7 +37,6 @@ class BlogController extends Controller
         return view('blog', compact('posts', 'categories', 'category'));
     }
 
-    // Affichage d’un article unique
     public function show($id)
     {
         $post = Post::findOrFail($id);
@@ -41,37 +44,33 @@ class BlogController extends Controller
         return view('blog-show', compact('post'));
     }
 
-    
-
     public function create()
-{
-    return view('post.create');
-}
+    {
+        return view('post.create');
+    }
 
-public function store(Request $request)
-{
-    // Validation
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'content' => 'required|string',
-        'category' => 'required|string',
-        'file' => 'required|image|mimes:jpg,jpeg,png|max:5120',
-    ]);
+    public function store(Request $request)
+    {
+        // Validation
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'category' => 'required|string',
+            'file' => 'required|image|mimes:jpg,jpeg,png|max:5120',
+        ]);
 
-    // Stocker l’image
-    $path = $request->file('file')->store('blog', 'public');
+        // Stocker l’image
+        $path = $request->file('file')->store('blog', 'public');
 
-    // Enregistrer dans la base
-    Post::create([
-        'title' => $request->title,
-        'except' => $request->input('except'),  // ajout de la colonne except
-        'content' => $request->content,
-        'category' => $request->category,
-        'image' => $path,
-    ]);
+        // Enregistrer dans la base
+        Post::create([
+            'title' => $request->title,
+            'except' => $request->input('except'),  // ajout de la colonne except
+            'content' => $request->content,
+            'category' => $request->category,
+            'image' => $path,
+        ]);
 
-    return redirect()->back()->with('success', 'Article ajouté avec succès !');
-}
-
-
+        return redirect()->back()->with('success', 'Article ajouté avec succès !');
+    }
 }
