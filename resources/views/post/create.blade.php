@@ -1,45 +1,46 @@
 @extends('layouts.app')
 
-@section('title', 'Créer une blog')
+@section('title', 'Créer un blog')
 
 @section('content')
 
 <div class="max-w-3xl mx-auto mt-10 bg-white p-8 shadow-lg rounded-lg">
 
-    <h1 class="text-2xl font-bold mb-6">Ajouter un article</h1>
+    <h1 class="text-3xl font-bold mb-8 text-center text-gray-800">Ajouter un article</h1>
 
     {{-- Message succès --}}
     @if(session('success'))
-        <div class="mb-4 p-3 bg-green-100 text-green-700 rounded">
+        <div class="mb-6 p-4 bg-green-100 text-green-800 rounded-md border border-green-300">
             {{ session('success') }}
         </div>
     @endif
 
-    <form action="{{ route('post.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('post.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
         @csrf
 
         {{-- Titre --}}
-        <div class="mb-4">
-            <label class="font-semibold block mb-1">Titre</label>
-            <input type="text" name="title" class="w-full border p-2 rounded" required>
+        <div>
+            <label for="title" class="block text-gray-700 font-semibold mb-2">Titre <span class="text-red-500">*</span></label>
+            <input id="title" type="text" name="title" class="w-full border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
         </div>
 
         {{-- Except --}}
-        <div class="mb-4">
-            <label class="font-semibold block mb-1">Description</label>
-            <input type="text" name="except" class="w-full border p-2 rounded">
+        <div>
+            <label for="except" class="block text-gray-700 font-semibold mb-2">Description</label>
+            <input id="except" type="text" name="except" class="w-full border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
 
         {{-- Contenu --}}
-        <div class="mb-4">
-            <label class="font-semibold block mb-1">Contenu</label>
-            <textarea name="content" class="w-full border p-2 rounded" rows="6" required></textarea>
+        <div>
+            <label for="content" class="block text-gray-700 font-semibold mb-2">Contenu <span class="text-red-500">*</span></label>
+            <textarea id="content" name="content" rows="6" class="w-full border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
         </div>
 
         {{-- Catégorie --}}
-        <div class="mb-4">
-            <label class="font-semibold block mb-1">Catégorie</label>
-            <select name="category" class="w-full border p-2 rounded" required>
+        <div>
+            <label for="category" class="block text-gray-700 font-semibold mb-2">Catégorie <span class="text-red-500">*</span></label>
+            <select id="category" name="category" class="w-full border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                <option value="" disabled selected>-- Sélectionnez une catégorie --</option>
                 <option value="Créa visuel">Créa visuel</option>
                 <option value="Montage Vidéo">Montage Vidéo</option>
                 <option value="Campagne média">Campagne média</option>
@@ -48,23 +49,25 @@
         </div>
 
         {{-- Image --}}
-        <div class="mb-4">
-            <label class="font-semibold block mb-1">Image (JPG uniquement)</label>
-           <input type="file" name="file" accept="image/jpg, image/jpeg, image/png" 
-       class="w-full border p-2 rounded" required>
+        <div>
+            <label for="file" class="block text-gray-700 font-semibold mb-2">Image (JPG, JPEG, PNG)</label>
+            <input id="file" type="file" name="file" accept="image/jpg, image/jpeg, image/png" class="w-full border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
         </div>
 
-        <button class="px-6 py-2 bg-blue-600 text-white rounded">
-            Publier
-        </button>
-
+        <div>
+            <button type="submit" class="px-8 py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition duration-300">
+                Publier
+            </button>
+        </div>
     </form>
 
-    <form method="POST" action="{{ route('logout') }}">
-    @csrf
-    <button type="submit">Se déconnecter</button>
-</form>
-
+    {{-- Bouton déconnexion placé ici, juste avant la fin du container --}}
+    <form method="POST" action="{{ route('logout') }}" class="mt-6">
+        @csrf
+        <button type="submit" class="w-full px-6 py-3 bg-red-600 text-white font-semibold rounded-md hover:bg-red-700 transition duration-300">
+            Se déconnecter
+        </button>
+    </form>
 
 </div>
 
