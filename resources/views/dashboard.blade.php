@@ -10,12 +10,12 @@
     <nav class="mb-12 w-full max-w-md">
         <ul class="space-y-6">
             <li>
-                <a href="{{ url('/post/create') }}" class="block text-center py-4 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transition">
+                <a href="{{ url('/post/create') }}" class="block text-center py-4 bg-blue-700 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transition">
                     Ajouter un article
                 </a>
             </li>
             <li>
-                <a href="{{ url('/realisations/create') }}" class="block text-center py-4 bg-green-600 text-white font-semibold rounded-lg shadow hover:bg-green-700 transition">
+                <a href="{{ url('/realisations/create') }}" class="block text-center py-4 bg-blue-700 text-white font-semibold rounded-lg shadow hover:bg-green-700 transition">
                     Ajouter une réalisation
                 </a>
             </li>
@@ -26,7 +26,7 @@
         @csrf
         <button 
             type="submit" 
-            class="w-full py-3 bg-red-600 text-[#17e5f3] font-semibold rounded-lg hover:bg-red-700 transition shadow"
+            class="w-full py-3 bg-white  text-blue font-semibold rounded-lg hover:bg-red-700 transition shadow"
         >
             Se déconnecter
         </button>
