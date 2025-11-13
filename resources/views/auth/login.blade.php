@@ -29,6 +29,6 @@
         <button type="submit">Se connecter</button>
     </form>
 
-    <p>Pas encore inscrit ? <a href="{{ route('register.form') }}">Inscris-toi ici</a></p>
+    
 </body>
 </html>
