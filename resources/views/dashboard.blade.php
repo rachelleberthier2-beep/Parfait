@@ -8,8 +8,8 @@
 
      <nav>
         <ul>
-            <li><a href="{{ url('/blog/create') }}">Ajouter un article</a></li>
-            <li><a href="{{ url('/realisation/create') }}">Ajouter une réalisation</a></li>
+            <li><a href="{{ url('/post/create') }}">Ajouter un article</a></li>
+            <li><a href="{{ url('/realisations/create') }}">Ajouter une réalisation</a></li>
         </ul>
     </nav>
 
