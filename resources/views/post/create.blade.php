@@ -64,7 +64,7 @@
     {{-- Bouton déconnexion placé ici, juste avant la fin du container --}}
     <form method="POST" action="{{ route('logout') }}" class="mt-6">
         @csrf
-        <button type="submit" class="w-full px-6 py-3 bg-red-600 text-white font-semibold rounded-md hover:bg-red-700 transition duration-300">
+        <button type="submit" class="w-full px-6 py-3 bg-red-600 text-black font-semibold rounded-md hover:bg-red-700 transition duration-300">
             Se déconnecter
         </button>
     </form>
