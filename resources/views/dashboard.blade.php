@@ -1,21 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Tableau de bord</title>
-</head>
-<body>
-    <h1>Bienvenue, {{ auth()->user()->name }}</h1>
+@extends('layouts.app')
 
-     <nav>
-        <ul>
-            <li><a href="{{ url('/post/create') }}">Ajouter un article</a></li>
-            <li><a href="{{ url('/realisations/create') }}">Ajouter une réalisation</a></li>
+@section('title', 'Tableau de bord')
+
+@section('content')
+<div class="min-h-screen bg-gray-50 flex flex-col items-center pt-20 px-4">
+
+    <h1 class="text-4xl font-extrabold mb-10 text-gray-800">Bienvenue, <span class="text-blue-600">{{ auth()->user()->name }}</span></h1>
+
+    <nav class="mb-12 w-full max-w-md">
+        <ul class="space-y-6">
+            <li>
+                <a href="{{ url('/post/create') }}" class="block text-center py-4 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transition">
+                    Ajouter un article
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('/realisations/create') }}" class="block text-center py-4 bg-green-600 text-white font-semibold rounded-lg shadow hover:bg-green-700 transition">
+                    Ajouter une réalisation
+                </a>
+            </li>
         </ul>
     </nav>
 
-    <form method="POST" action="{{ route('logout') }}">
+    <form method="POST" action="{{ route('logout') }}" class="w-full max-w-md">
         @csrf
-        <button type="submit">Se déconnecter</button>
+        <button 
+            type="submit" 
+            class="w-full py-3 bg-red-600 text-[#17e5f3] font-semibold rounded-lg hover:bg-red-700 transition shadow"
+        >
+            Se déconnecter
+        </button>
     </form>
-</body>
-</html>
+    
+</div>
+@endsection
