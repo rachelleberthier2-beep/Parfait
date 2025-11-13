@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
+
+
     public function index(Request $request)
     {
         $category = $request->query('category'); // Catégorie sélectionnée
@@ -39,11 +41,7 @@ class BlogController extends Controller
         return view('blog-show', compact('post'));
     }
 
-    public function __construct()
-{
-    $this->middleware('auth')->only(['create', 'store']);
-}
-
+    
 
     public function create()
 {
