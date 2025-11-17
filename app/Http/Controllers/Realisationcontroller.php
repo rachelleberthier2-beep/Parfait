@@ -43,12 +43,19 @@ class RealisationController extends Controller
             'title' => 'required|string|max:255',
             'category' => 'required|string',
             'file_type' => 'required|string',
-            'file' => 'required|file|mimetypes:video/mp4,video/avi,video/mpeg,video/quicktime,image/jpeg,image/png,application/pdf|max:102400',
+            'file' => 'required|file|mimes:mp4,avi,mpeg,mov,jpeg,jpg,png,pdf|max:1024000',
+
 
         ]);
 
         // Stockage du fichier
+        if ($request->file_type === 'video') {
+        $path = $request->file('file')->store('videos', 'public');
+    } elseif ($request->file_type === 'image') {
         $path = $request->file('file')->store('images', 'public');
+    } else {
+        $path = $request->file('file')->store('docs', 'public');
+    }
 
         // Enregistrement dans la base
         Realisation::create([
