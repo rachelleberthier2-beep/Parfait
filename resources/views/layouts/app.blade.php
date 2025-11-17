@@ -105,7 +105,7 @@
                 <p class="mb-8 max-w-xl- mx-auto">Discutons de votre projet et créons ensemble une stratégie de
                     communication efficace</p>
                 <a href="{{ route('contact') }}"
-                    class="inline-block  text-black font-bold px-8- py-3 rounded-md  transition"
+                    class="inline-block  text-black font-bold px-8 py-3 rounded-md  transition"
                     style="background-color: #17e5f3;">
                     Démarrer un projet
                 </a>
