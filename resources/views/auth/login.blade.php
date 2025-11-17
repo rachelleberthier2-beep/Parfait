@@ -5,10 +5,10 @@
 
 @section('content')
 
-<div class="min-h-screen flex items-center justify-center bg-gray-100 px-4 py-10">
-    <div class="max-w-md w-full bg-white p-8 rounded-xl shadow-lg ring-1 ring-gray-300">
+<div class="min-h-screen flex flex-col items-center bg-gray-100 px-4 py-10">
+    <div class="max-w-xl w-full bg-white p-8 rounded-xl shadow-lg ring-1 ring-gray-300 mt-20">
 
-        <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">Se connecter</h1>
+        <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">Parfait connecte toi</h1>
 
         @if ($errors->any())
             <div class="mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
