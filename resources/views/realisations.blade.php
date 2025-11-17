@@ -143,7 +143,7 @@
         } 
         else if (type === 'pdf') {
             html = `
-                <embed src="${url}" type="application/pdf"  class="rounded  w-full h-150" />
+                <embed src="${url}" type="application/pdf"  class="rounded  w-full h-full" />
             `;
         }
 
