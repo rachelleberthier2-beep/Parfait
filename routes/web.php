@@ -19,8 +19,13 @@ Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    // Vérifie si utilisateur connecté ET admin
+    if (auth()->check() && auth()->user()->role === 'admin') {
+        return view('dashboard');
+    }
+    abort(403, 'Accès refusé : vous devez être administrateur.');
 })->middleware('auth')->name('dashboard');
+
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/a-propos', [AboutController::class, 'index'])->name('about');
