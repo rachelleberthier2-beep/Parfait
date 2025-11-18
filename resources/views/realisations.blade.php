@@ -107,75 +107,79 @@
 </section>
 
 {{-- Modal --}}
-<div id="modal" class="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center hidden z-50">
-    <div class="relative max-w-2xl w-full  bg-white rounded-lg overflow-hidden p-1">
-        
+<div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50">
+    <div class="relative bg-white rounded-lg shadow-xl w-[95%] max-w-5xl h-[90vh] overflow-hidden">
+
+        <!-- Bouton fermer -->
         <button onclick="closeModal()"
-                class="absolute top-3 right-4 text-gray-100 text-4xl font-bold leading-none hover:text-white transition">
+                class="absolute top-3 right-4 text-gray-700 text-4xl font-bold leading-none hover:text-black transition">
             &times;
         </button>
 
-        <div id="modal-content" class="flex justify-center items-center  w-full h-[100vh]"></div>
+        <!-- Contenu -->
+        <div id="modal-content" class="w-50 h-50 flex justify-center items-center"></div>
     </div>
 </div>
 
 
 
+
 <script>
     function openModal(type, url) {
-        const modal = document.getElementById('modal');
-        const content = document.getElementById('modal-content');
+    const modal = document.getElementById('modal');
+    const content = document.getElementById('modal-content');
 
-        let html = '';
+    let html = '';
 
-        if (type === 'image') {
-    html = `<img src="${url}" alt="Image" 
-            class="w-full h-full object-contain rounded-lg shadow-2xl cursor-zoom-out" 
-            onclick="closeModal()" />`;
+    if (type === 'image') {
+        html = `
+            <img src="${url}" 
+                 class="max-w-[60vw] max-h-[70vh] object-contain rounded-lg shadow-xl cursor-zoom-out"
+                 onclick="closeModal()" />
+        `;
+    }
+
+    else if (type === 'video') {
+        html = `
+            <video controls autoplay 
+                   class="max-w-[60vw] max-h-[70vh] rounded-lg shadow-xl">
+                <source src="${url}" type="video/mp4">
+                Votre navigateur ne supporte pas la vidéo.
+            </video>
+        `;
+    }
+
+    else if (type === 'pdf') {
+        html = `
+            <iframe src="${url}" class=" w-full h-full  rounded border"></iframe>
+        `;
+    }
+
+    content.innerHTML = html;
+    modal.classList.remove('hidden');
+
+    document.body.style.overflow = 'hidden';
+
+    modal.onclick = function(e) {
+        if (e.target === modal) closeModal();
+    };
+
+    document.onkeydown = function(e) {
+        if (e.key === 'Escape') closeModal();
+    };
 }
-        else if (type === 'video') {
-            html = `
-                <video controls autoplay class="max-w-full max-h-[85vh] rounded">
-                    <source src="${url}" type="video/mp4">
-                    Votre navigateur ne supporte pas la lecture vidéo.
-                </video>
-            `;
-        } 
-        else if (type === 'pdf') {
-            html = `
-                <embed src="${url}" type="application/pdf"  class="rounded  w-full " />
-            `;
-        }
 
-        content.innerHTML = html;
-        modal.classList.remove('hidden');
-        
-        // Empêche le scroll du body quand modal ouvert
-        document.body.style.overflow = 'hidden';
+function closeModal() {
+    const modal = document.getElementById('modal');
+    const content = document.getElementById('modal-content');
 
-        // Fermer en cliquant sur le fond noir
-        modal.onclick = function(e) {
-            if (e.target === modal) closeModal();
-        };
+    modal.classList.add('hidden');
+    content.innerHTML = '';
 
-        // Fermer avec la touche Escape
-        document.onkeydown = function(e) {
-            if (e.key === 'Escape') closeModal();
-        };
-    }
+    document.body.style.overflow = 'auto';
+    document.onkeydown = null;
+}
 
-    function closeModal() {
-        const modal = document.getElementById('modal');
-        const content = document.getElementById('modal-content');
 
-        modal.classList.add('hidden');
-        content.innerHTML = '';
-        
-        // Réactive le scroll du body
-        document.body.style.overflow = 'auto';
-        
-        // Supprime le listener Escape
-        document.onkeydown = null;
-    }
 </script>
 @endsection
