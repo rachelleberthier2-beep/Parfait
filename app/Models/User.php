@@ -19,7 +19,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role',    // <-- il manquait une apostrophe ici
     ];
 
     /**
