@@ -2,69 +2,101 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Realisation;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 
 class RealisationController extends Controller
 {
-    public function __construct()
-    {
-        // Protéger uniquement les méthodes create et store
-        $this->middleware('auth')->only(['create', 'store']);
-    }
-
     public function index(Request $request)
     {
-        // Liste fixe des catégories
-        $categories = ['Créa visuel', 'Projet design', 'Montage vidéo', 'Campagne médias'];
+        // Liste : le slug => le nom affiché
+        $categories = [
+            'crea-visuel' => 'Créa visuel',
+            'projet-design' => 'Projet design',
+            'montage-video' => 'Montage vidéo',
+            'campagne-medias' => 'Campagne médias',
+            'impression' => 'Impression',
+            'packaging' => 'Packaging',
 
-        if ($request->has('category')) {
-            $category = $request->query('category');
-            $realisations = Realisation::when($category, function ($query, $category) {
-                return $query->where('category', $category);
-            })->latest()->get();
-        } else {
-            $category = null;
-            $realisations = Realisation::paginate(6);
+        ];
+
+        $selectedCategory = $request->query('category');
+
+        // Aucun filtre → tous les fichiers
+        if (!$selectedCategory) {
+            $files = $this->getAllFiles(array_keys($categories));
+        } 
+        // Filtre valide → fichiers du dossier
+        elseif (array_key_exists($selectedCategory, $categories)) {
+            $files = $this->getFilesInFolder($selectedCategory);
+        } 
+        // Filtre invalide → aucun résultat
+        else {
+            $files = [];
         }
 
-        return view('realisations', compact('realisations', 'categories', 'category'));
-    }
+        /**
+         * 🔥 PARTIE AJAX
+         * Si la requête vient d’un fetch() ou $.ajax(),
+         * on renvoie seulement la grille !
+         */
+        if ($request->ajax()) {
+            return view('partials.realisations-grid', [
+                'files' => $files
+            ]);
+        }
 
-    public function create()
-    {
-        return view('realisations.create');
-    }
-
-    public function store(Request $request)
-    {
-        // Validation
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'category' => 'required|string',
-            'file_type' => 'required|string',
-            'file' => 'required|file|mimes:mp4,avi,mpeg,mov,jpeg,jpg,png,pdf|max:1024000',
-
-
+        // Chargement normal de la page
+        return view('realisations', [
+            'categories' => $categories,
+            'category' => $selectedCategory,
+            'files' => $files,
         ]);
-
-        // Stockage du fichier
-        if ($request->file_type === 'video') {
-        $path = $request->file('file')->store('videos', 'public');
-    } elseif ($request->file_type === 'image') {
-        $path = $request->file('file')->store('images', 'public');
-    } else {
-        $path = $request->file('file')->store('docs', 'public');
     }
 
-        // Enregistrement dans la base
-        Realisation::create([
-            'title' => $request->title,
-            'category' => $request->category,
-            'file_type' => $request->file_type,
-            'file_path' => $path,
-        ]);
+    // Récupère tous les fichiers des catégories
+    private function getAllFiles($categorySlugs)
+    {
+        $all = [];
+        foreach ($categorySlugs as $slug) {
+            $all = array_merge($all, $this->getFilesInFolder($slug));
+        }
+        return $all;
+    }
 
-        return redirect()->back()->with('success', 'Réalisation ajoutée avec succès !');
+    // Récupère les fichiers d'un seul dossier
+    private function getFilesInFolder($folder)
+    {
+        $path = public_path("realisation/$folder");
+
+        if (!File::exists($path)) {
+            return [];
+        }
+
+        $files = File::files($path);
+
+        return array_map(function ($file) use ($folder) {
+
+            $ext = strtolower($file->getExtension());
+
+            return [
+                'url' => asset("realisation/$folder/" . $file->getFilename()),
+                'type' => $this->detectType($ext),
+                'name' => $file->getFilename(),
+                'folder' => $folder
+            ];
+
+        }, $files);
+    }
+
+    // Détecter type : image / video / pdf
+    private function detectType($ext)
+    {
+        return match ($ext) {
+            'jpg', 'jpeg', 'png' => 'image',
+            'mp4', 'mov' => 'video',
+            'pdf' => 'pdf',
+            default => 'other',
+        };
     }
 }

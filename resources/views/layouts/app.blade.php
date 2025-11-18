@@ -130,7 +130,7 @@
                     <a href="/" class="inline-block mb-6">
                         <img src="{{ asset('images/tools/Communication original.png') }}" class="w-32 h-auto">
                     </a>
-                    <p class="text-gray-400 max-w-sm leading-relaxed">
+                    <p class="text-gray-400 max-w-sm leading-relaxed ">
                         Création visuelle & gestion de communication digitale, conçues pour booster votre image.
                     </p>
                 </div>

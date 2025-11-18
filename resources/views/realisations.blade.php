@@ -58,53 +58,65 @@
            Tous
         </a>
 
-        @foreach ($categories as $cat)
-            <a href="{{ route('realisations', ['category' => $cat]) }}"
-               class="px-5 py-2 rounded-lg {{ $category === $cat ? 'bg-blue-600 text-white' : 'border hover:bg-gray-100' }}">
-               {{ $cat }}
-            </a>
-        @endforeach
+       @foreach ($categories as $slug => $label)
+    <a href="{{ route('realisations', ['category' => $slug]) }}"
+       class="px-5 py-2 rounded-lg {{ $category === $slug ? 'bg-blue-600 text-white' : 'border hover:bg-gray-100' }}">
+       {{ $label }}
+    </a>
+@endforeach
+
     </div>
+      
+    <div  id="realisations-container" class="grid md:grid-cols-3 gap-8">
+    @forelse ($files as $file)
 
-    {{-- Liste des réalisations --}}
-    <div class="grid md:grid-cols-3 gap-8">
-        @forelse ($realisations as $real)
-            <div 
-                class="relative border rounded-lg overflow-hidden shadow-md group cursor-pointer transition-transform duration-300 hover:scale-105"
-                onclick="openModal('{{ $real->file_type }}', '{{ asset('storage/' . $real->file_path) }}')">
+        <div 
+            class="relative border rounded-lg overflow-hidden shadow-md group cursor-pointer transition-transform duration-300 hover:scale-105"
+            onclick="openModal('{{ $file['type'] }}', {!! json_encode($file['url']) !!})"> 
 
-                {{-- Miniature selon type --}}
-                @if($real->file_type === 'image')
-                    <img src="{{ asset('storage/' . $real->file_path) }}"
-                         class="w-full h-full object-cover transition duration-300 group-hover:opacity-70">
+            {{-- Miniature selon type --}}
+            @if($file['type'] === 'image')
+                <img src="{{ $file['url'] }}"
+                     class="w-full h-full object-contain transition duration-300 group-hover:opacity-70">
 
-                @elseif($real->file_type === 'video')
-                    <video class="w-full h-full object-cover transition duration-300 group-hover:opacity-70" muted>
-                        <source src="{{ asset('storage/' . $real->file_path) }}" type="video/mp4">
-                    </video>
+            @elseif($file['type'] === 'video')
+                <video class="w-full h-full object-cover transition duration-300 group-hover:opacity-70" muted>
+                    <source src="{{ $file['url'] }}" type="video/mp4">
+                </video>
 
-                @elseif($real->file_type === 'pdf')
-                    <div class="w-full h-full bg-gray-100 flex flex-col items-center justify-center">
-                        <span class="text-blue-700 text-5xl mb-3">📄</span>
-                        <a href="#" 
-                           onclick="event.stopPropagation(); openModal('pdf', '{{ asset('storage/' . $real->file_path) }}'); return false;"
-                           class="text-blue-600  underline text-sm hover:text-blue-800 z-10">
-                            Voir le document PDF
-                        </a>
-                    </div>
-                @endif
-
-                {{-- Overlay --}}
-                <div class="absolute inset-0 opacity-0 group-hover:opacity-100 flex flex-col justify-center items-center text-center text-white transition-opacity duration-300 px-4 pointer-events-none">
-                    <h3 class="text-xl font-bold mb-2">{{ $real->title }}</h3>
-                    <p class="text-sm">{{ $real->description }}</p>
+            @elseif($file['type'] === 'pdf')
+                <div class="w-full h-full bg-gray-100 flex flex-col items-center justify-center">
+                    <span class="text-blue-700 text-5xl mb-3">📄</span>
+                    <a href="#" 
+                       onclick="event.stopPropagation(); openModal('pdf', {!! json_encode($file['url']) !!}); return false;"
+                       class="text-blue-600 underline text-sm hover:text-blue-800 z-10">
+                        Voir le document PDF
+                    </a>
                 </div>
+            @endif
+
+            {{-- Overlay --}}
+            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 flex flex-col justify-center items-center text-center text-white transition-opacity duration-300 px-4 pointer-events-none">
+                <h3 class="text-xl font-bold mb-2">{{ $file['title'] ?? $file['name'] }}</h3>
+                <p class="text-sm">{{ $file['description'] ?? '' }}</p>
             </div>
-        @empty
-            <p class="col-span-3 text-center text-gray-500">Aucune réalisation trouvée pour cette catégorie.</p>
-        @endforelse
-    </div>
+        </div>
+    @empty
+        <p class="col-span-3 text-center text-gray-500">Aucune réalisation trouvée pour cette catégorie.</p>
+    @endforelse
+
+</div>
+
+@if(count($files) > 6)
+<div class="text-center mt-6">
+    <button id="load-more-btn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+        Voir plus
+    </button>
+</div>
+@endif
 </section>
+
+
 
 {{-- Modal --}}
 <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50">
@@ -123,6 +135,20 @@
 
 
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const btn = document.getElementById('load-more-btn');
+    if (btn) {
+        btn.addEventListener('click', function() {
+            const hiddenItems = document.querySelectorAll('#realisations-container > div[style*="display:none"]');
+            hiddenItems.forEach(item => {
+                item.style.display = 'block';
+            });
+            btn.style.display = 'none'; // Cache le bouton après avoir affiché tout
+        });
+    }
+});
+</script>
 
 <script>
     function openModal(type, url) {
