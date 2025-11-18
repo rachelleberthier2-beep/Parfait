@@ -88,7 +88,7 @@
                         <span class="text-blue-700 text-5xl mb-3">📄</span>
                         <a href="#" 
                            onclick="event.stopPropagation(); openModal('pdf', '{{ asset('storage/' . $real->file_path) }}'); return false;"
-                           class="text-blue-600 underline text-sm hover:text-blue-800 z-10">
+                           class="text-blue-600  underline text-sm hover:text-blue-800 z-10">
                             Voir le document PDF
                         </a>
                     </div>
@@ -107,15 +107,15 @@
 </section>
 
 {{-- Modal --}}
-<div id="modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center hidden z-50">
-    <div class="relative max-w-2xl w-full bg-white rounded-lg overflow-hidden p-4">
+<div id="modal" class="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center hidden z-50">
+    <div class="relative max-w-2xl w-full  bg-white rounded-lg overflow-hidden p-1">
         
         <button onclick="closeModal()"
                 class="absolute top-3 right-4 text-gray-100 text-4xl font-bold leading-none hover:text-white transition">
             &times;
         </button>
 
-        <div id="modal-content" class="flex justify-center items-center"></div>
+        <div id="modal-content" class="flex justify-center items-center  w-full h-[100vh]"></div>
     </div>
 </div>
 
@@ -143,7 +143,7 @@
         } 
         else if (type === 'pdf') {
             html = `
-                <embed src="${url}" type="application/pdf"  class="rounded  w-full h-full" />
+                <embed src="${url}" type="application/pdf"  class="rounded  w-full " />
             `;
         }
 
