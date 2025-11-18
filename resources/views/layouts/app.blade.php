@@ -30,7 +30,7 @@
                         style="background-color: #17e5f3;"></span>
                 </a>
                 <a href="{{ route('about') }}" class="relative group text-gray-700 ">
-                    À propos
+                    Qui suis-je ?
                     <span
                         class="absolute left-0 -bottom-1 w-full h-0.5 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"
                         style="background-color: #17e5f3;"></span>
