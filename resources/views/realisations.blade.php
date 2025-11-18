@@ -67,53 +67,23 @@
 
     </div>
       
-    <div  id="realisations-container" class="grid md:grid-cols-3 gap-8">
-    @forelse ($files as $file)
+    <div id="realisations-container" 
+     class="grid md:grid-cols-3 gap-8">
 
-        <div 
-            class="relative border rounded-lg overflow-hidden shadow-md group cursor-pointer transition-transform duration-300 hover:scale-105"
-            onclick="openModal('{{ $file['type'] }}', {!! json_encode($file['url']) !!})"> 
-
-            {{-- Miniature selon type --}}
-            @if($file['type'] === 'image')
-                <img src="{{ $file['url'] }}"
-                     class="w-full h-full object-contain transition duration-300 group-hover:opacity-70">
-
-            @elseif($file['type'] === 'video')
-                <video class="w-full h-full object-cover transition duration-300 group-hover:opacity-70" muted>
-                    <source src="{{ $file['url'] }}" type="video/mp4">
-                </video>
-
-            @elseif($file['type'] === 'pdf')
-                <div class="w-full h-full bg-gray-100 flex flex-col items-center justify-center">
-                    <span class="text-blue-700 text-5xl mb-3">📄</span>
-                    <a href="#" 
-                       onclick="event.stopPropagation(); openModal('pdf', {!! json_encode($file['url']) !!}); return false;"
-                       class="text-blue-600 underline text-sm hover:text-blue-800 z-10">
-                        Voir le document PDF
-                    </a>
-                </div>
-            @endif
-
-            {{-- Overlay --}}
-            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 flex flex-col justify-center items-center text-center text-white transition-opacity duration-300 px-4 pointer-events-none">
-                <h3 class="text-xl font-bold mb-2">{{ $file['title'] ?? $file['name'] }}</h3>
-                <p class="text-sm">{{ $file['description'] ?? '' }}</p>
-            </div>
-        </div>
-    @empty
-        <p class="col-span-3 text-center text-gray-500">Aucune réalisation trouvée pour cette catégorie.</p>
-    @endforelse
+    @include('partials.realisations-grid', ['files' => $files])
 
 </div>
 
-@if(count($files) > 6)
-<div class="text-center mt-6">
-    <button id="load-more-btn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
-        Voir plus
-    </button>
-</div>
+@if ($files->hasMorePages())
+    <div class="text-center mt-6">
+        <button id="load-more-btn"
+                data-next-page="{{ $files->currentPage() + 1 }}"
+                class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+            Voir plus
+        </button>
+    </div>
 @endif
+
 </section>
 
 
@@ -151,61 +121,41 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <script>
-    function openModal(type, url) {
-    const modal = document.getElementById('modal');
-    const content = document.getElementById('modal-content');
+document.addEventListener("DOMContentLoaded", () => {
+    const button = document.getElementById("load-more-btn");
 
-    let html = '';
+    if (!button) return;
 
-    if (type === 'image') {
-        html = `
-            <img src="${url}" 
-                 class="max-w-[60vw] max-h-[70vh] object-contain rounded-lg shadow-xl cursor-zoom-out"
-                 onclick="closeModal()" />
-        `;
-    }
+    button.addEventListener("click", function () {
+        let nextPage = this.getAttribute("data-next-page");
+        let category = "{{ $category ?? '' }}";
 
-    else if (type === 'video') {
-        html = `
-            <video controls autoplay 
-                   class="max-w-[60vw] max-h-[70vh] rounded-lg shadow-xl">
-                <source src="${url}" type="video/mp4">
-                Votre navigateur ne supporte pas la vidéo.
-            </video>
-        `;
-    }
+        let url = "{{ route('realisations') }}?page=" + nextPage;
+        if (category) url += "&category=" + category;
 
-    else if (type === 'pdf') {
-        html = `
-            <iframe src="${url}" class=" w-full h-full  rounded border"></iframe>
-        `;
-    }
+        fetch(url, {
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            }
+        })
+        .then(res => res.text())
+        .then(html => {
+            document.querySelector("#realisations-container")
+                .insertAdjacentHTML("beforeend", html);
 
-    content.innerHTML = html;
-    modal.classList.remove('hidden');
+            // Mettre à jour la page suivante
+            nextPage = Number(nextPage) + 1;
+            this.setAttribute("data-next-page", nextPage);
 
-    document.body.style.overflow = 'hidden';
-
-    modal.onclick = function(e) {
-        if (e.target === modal) closeModal();
-    };
-
-    document.onkeydown = function(e) {
-        if (e.key === 'Escape') closeModal();
-    };
-}
-
-function closeModal() {
-    const modal = document.getElementById('modal');
-    const content = document.getElementById('modal-content');
-
-    modal.classList.add('hidden');
-    content.innerHTML = '';
-
-    document.body.style.overflow = 'auto';
-    document.onkeydown = null;
-}
-
-
+            // Si plus de pages → cacher bouton
+            @if ($files->lastPage())
+            if (nextPage > {{ $files->lastPage() }}) {
+                button.style.display = "none";
+            }
+            @endif
+        });
+    });
+});
 </script>
+
 @endsection

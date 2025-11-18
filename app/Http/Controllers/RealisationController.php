@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class RealisationController extends Controller
 {
     public function index(Request $request)
     {
-        // Liste : le slug => le nom affiché
         $categories = [
             'crea-visuel' => 'Créa visuel',
             'projet-design' => 'Projet design',
@@ -17,44 +18,50 @@ class RealisationController extends Controller
             'campagne-medias' => 'Campagne médias',
             'impression' => 'Impression',
             'packaging' => 'Packaging',
-
         ];
 
         $selectedCategory = $request->query('category');
 
-        // Aucun filtre → tous les fichiers
+        // Fichiers selon catégorie
         if (!$selectedCategory) {
             $files = $this->getAllFiles(array_keys($categories));
-        } 
-        // Filtre valide → fichiers du dossier
-        elseif (array_key_exists($selectedCategory, $categories)) {
+        } elseif (array_key_exists($selectedCategory, $categories)) {
             $files = $this->getFilesInFolder($selectedCategory);
-        } 
-        // Filtre invalide → aucun résultat
-        else {
+        } else {
             $files = [];
         }
 
-        /**
-         * 🔥 PARTIE AJAX
-         * Si la requête vient d’un fetch() ou $.ajax(),
-         * on renvoie seulement la grille !
-         */
+        // Convertir en Collection pour paginate()
+        $collection = collect($files);
+
+        // Pagination 6 par page
+        $perPage = 6;
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $currentPageItems = $collection->slice(($currentPage - 1) * $perPage, $perPage)->values();
+
+        $paginatedFiles = new LengthAwarePaginator(
+            $currentPageItems,
+            $collection->count(),
+            $perPage,
+            $currentPage,
+            ['path' => url()->current()]
+        );
+
+        // Si c'est AJAX -> on envoie seulement le morceau HTML
         if ($request->ajax()) {
             return view('partials.realisations-grid', [
-                'files' => $files
+                'files' => $paginatedFiles
             ]);
         }
 
-        // Chargement normal de la page
+        // Affichage classique
         return view('realisations', [
             'categories' => $categories,
             'category' => $selectedCategory,
-            'files' => $files,
+            'files' => $paginatedFiles,
         ]);
     }
 
-    // Récupère tous les fichiers des catégories
     private function getAllFiles($categorySlugs)
     {
         $all = [];
@@ -64,7 +71,6 @@ class RealisationController extends Controller
         return $all;
     }
 
-    // Récupère les fichiers d'un seul dossier
     private function getFilesInFolder($folder)
     {
         $path = public_path("realisation/$folder");
@@ -89,7 +95,6 @@ class RealisationController extends Controller
         }, $files);
     }
 
-    // Détecter type : image / video / pdf
     private function detectType($ext)
     {
         return match ($ext) {
