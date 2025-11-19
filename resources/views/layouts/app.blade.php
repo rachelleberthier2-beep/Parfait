@@ -53,7 +53,13 @@
                         class="absolute left-0 -bottom-1 w-full h-0.5  scale-x-0 group-hover:scale-x-100 transition-transform origin-left"
                         style="background-color: #17e5f3;"></span>
                 </a>
-                    
+                  <a href="{{ route('login.form') }}" class="relative group text-gray-700">
+                     Se connecter
+                     <span
+                        class="absolute left-0 -bottom-1 w-full h-0.5  scale-x-0 group-hover:scale-x-100 transition-transform origin-left"
+                        style="background-color: #17e5f3;"></span>
+                </a>
+  
                 
 
 
@@ -79,7 +85,8 @@
                 class="block px-6 py-3 border-b border-gray-200 hover:bg-gray-100">Réalisations</a>
             <a href="{{ route('blog') }}" class="block px-6 py-3 border-b border-gray-200 hover:bg-gray-100">Blog</a>
             <a href="{{ route('contact') }}" class="block px-6 py-3 hover:bg-gray-100">Contact</a>
-            
+            <a href="{{ route('login.form') }}" class="block px-6 py-3 hover:bg-gray-100">Se connecter </a>
+
                      
                
         </nav>
