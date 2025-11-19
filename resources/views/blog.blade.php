@@ -10,18 +10,19 @@
 <section class="py-16 max-w-6xl mx-auto px-6">
 
     {{-- Boutons de filtres --}}
-    <div class="flex justify-center flex-wrap gap-3 mb-10">
-        <a href="{{ route('blog') }}"
-            class="px-5 py-2 rounded-lg {{ request('category') ? 'border hover:bg-gray-100' : 'bg-blue-600 text-white' }}">
-            Tous
-        </a>
+    <div class="flex justify-center flex-wrap gap-3 mb-10" id="blog-filters">
+    <button data-category="" class="filter-btn px-5 py-2 rounded-lg bg-blue-600 text-white">
+        Tous
+    </button>
 
-        @foreach ($categories as $cat)
-            <a href="{{ route('blog', ['category' => $cat]) }}"
-                class="px-5 py-2 rounded-lg {{ request('category') === $cat ? 'bg-blue-600 text-white' : 'border hover:bg-gray-100' }}">
-                {{ $cat }}
-            </a>
-        @endforeach
+    @foreach ($categories as $cat)
+        <button data-category="{{ $cat }}"
+            class="filter-btn px-5 py-2 rounded-lg border hover:bg-gray-100">
+            {{ $cat }}
+        </button>
+    @endforeach
+    </div>
+
     </div>
 
     {{-- Container des posts pour AJAX --}}
@@ -41,41 +42,70 @@
     {{ $posts->links() }}
 
 </section>
-@endsection
 
-@section('scripts')
+
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        let currentPage = {{ $posts->currentPage() }};
-        const lastPage = {{ $posts->lastPage() }};
-        let currentCategory = "{{ request('category') ?? '' }}";
+document.addEventListener('DOMContentLoaded', () => {
 
-        const postsContainer = document.getElementById('posts-container');
-        const loadMoreBtn = document.getElementById('loadMoreBtn');
+    let currentCategory = ""; // categorie active
+    let currentPage = 1;
 
-        if (loadMoreBtn) {
-            loadMoreBtn.addEventListener('click', () => {
-                if (currentPage >= lastPage) {
-                    loadMoreBtn.style.display = 'none';
-                    return;
-                }
+    const postsContainer = document.getElementById('posts-container');
+    let loadMoreBtn = document.getElementById('loadMoreBtn');
+    const filters = document.querySelectorAll('.filter-btn');
 
-                currentPage++;
+    // 🔵 Chargement AJAX
+    function loadPosts(reset = false) {
+        fetch(`{{ route('blog') }}?category=${currentCategory}&page=${currentPage}`, {
+            headers: { "X-Requested-With": "XMLHttpRequest" }
+        })
+        .then(res => res.text())
+        .then(html => {
 
-                fetch(`{{ route('blog') }}?category=${currentCategory}&page=${currentPage}`, {
-                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
-                })
-                .then(response => response.text())
-                .then(html => {
-                    postsContainer.insertAdjacentHTML('beforeend', html);
+            if (reset) {
+                postsContainer.innerHTML = html;
+            } else {
+                postsContainer.insertAdjacentHTML('beforeend', html);
+            }
 
-                    if (currentPage >= lastPage) {
-                        loadMoreBtn.style.display = 'none';
-                    }
-                })
-                .catch(err => console.error(err));
-            });
-        }
+            // Gérer le bouton "Voir plus"
+            const newBtn = document.getElementById('loadMoreBtn');
+
+            if (newBtn) {
+                loadMoreBtn = newBtn;
+                loadMoreBtn.onclick = loadMore;
+            } else if (loadMoreBtn) {
+                loadMoreBtn.style.display = "none";
+            }
+        });
+    }
+
+    // 🔵 Load More
+    function loadMore() {
+        currentPage++;
+        loadPosts();
+    }
+
+    // 🔵 Click sur un filtre
+    filters.forEach(btn => {
+        btn.addEventListener('click', () => {
+
+            // change design actif
+            filters.forEach(f => f.classList.remove('bg-blue-600', 'text-white'));
+            btn.classList.add('bg-blue-600', 'text-white');
+
+            currentCategory = btn.dataset.category;
+            currentPage = 1;
+
+            loadPosts(true);
+        });
     });
+
+    // Attacher load more si bouton existe
+    if (loadMoreBtn) {
+        loadMoreBtn.onclick = loadMore;
+    }
+});
 </script>
+
 @endsection

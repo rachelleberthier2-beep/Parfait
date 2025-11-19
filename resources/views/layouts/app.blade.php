@@ -168,7 +168,7 @@
                 {{-- Contact --}}
                 <div class="md:w-1/3">
                     <h3 class="text-white font-semibold mb-4">Contact</h3>
-                    <p class="mb-2">contact@monsite.com</p>
+                    <p class="mb-2">tozoparfait4@gmail.com</p>
                     <p>+229 01 97 29 41 55</p>
                 </div>
 
