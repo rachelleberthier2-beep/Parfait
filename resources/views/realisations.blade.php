@@ -72,10 +72,8 @@
 
     @include('partials.realisations-grid', ['files' => $files])
 
-</div>
-
-@if ($files->hasMorePages())
-    <div class="text-center mt-6">
+    @if ($files->hasMorePages())
+    <div  id="load-more-container" class="text-center mt-6">
         <button id="load-more-btn"
                 data-next-page="{{ $files->currentPage() + 1 }}"
                 class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
@@ -84,43 +82,81 @@
     </div>
 @endif
 
-</section>
-
-
-
-{{-- Modal --}}
-<div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50">
-    <div class="relative bg-white rounded-lg shadow-xl w-[95%] max-w-5xl h-[90vh] overflow-hidden">
-
-        <!-- Bouton fermer -->
-        <button onclick="closeModal()"
-                class="absolute top-3 right-4 text-gray-700 text-4xl font-bold leading-none hover:text-black transition">
-            &times;
-        </button>
-
-        <!-- Contenu -->
-        <div id="modal-content" class="w-50 h-50 flex justify-center items-center"></div>
-    </div>
+    
 </div>
 
+</div>
+</section>
+
+<div id="fileModal" class="hidden fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[9999] p-4">
+    <div class="relative w-full max-w-5xl max-h-[90vh] bg-white rounded-lg overflow-hidden shadow-xl">
+
+        <!-- Bouton pour fermer -->
+        <button onclick="closeModal()" 
+            class="absolute top-3 right-3 text-white bg-red-600 px-3 py-2 rounded-full text-xl z-50">
+            ✖
+        </button>
+
+        <!-- Contenu dynamique -->
+        <div id="modalContent" class="w-full h-full flex items-center justify-center p-4"></div>
+    </div>
+
+ 
 
 
 <script>
+function openModal(type, url) {
+    const modal = document.getElementById("fileModal");
+    const content = document.getElementById("modalContent");
+    const loadMoreContainer = document.getElementById("load-more-container");
+
+    content.innerHTML = "";
+
+    if (type === "image") {
+        content.innerHTML = `<img src="${url}" style="max-width:90vw; max-height:70vh; object-fit:contain; border-radius:0.5rem;" />`;
+    } else if (type === "video") {
+        content.innerHTML = `<video controls autoplay playsinline class="max-w-full max-h-[85vh] rounded-lg">
+            <source src="${url}" type="video/mp4">
+        </video>`;
+    } else if (type === "pdf") {
+        content.innerHTML = `<iframe src="${url}" class="w-full h-[100vh]" frameborder="0"></iframe>`;
+    }
+
+    modal.classList.remove("hidden");
+    document.body.style.overflow = 'hidden'; // bloque le scroll derrière modal
+
+    if (loadMoreContainer) {
+        loadMoreContainer.style.display = 'none'; // cache le bouton "Voir plus"
+    }
+}
+
+function closeModal() {
+    const modal = document.getElementById("fileModal");
+    const loadMoreContainer = document.getElementById("load-more-container");
+
+    modal.classList.add("hidden");
+    document.body.style.overflow = 'auto'; // restaure le scroll
+
+    if (loadMoreContainer) {
+        loadMoreContainer.style.display = 'block'; // montre à nouveau le bouton
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const btn = document.getElementById('load-more-btn');
     if (btn) {
         btn.addEventListener('click', function() {
+            // Ta logique ajax ou affichage pour charger plus
+            // Par exemple :
             const hiddenItems = document.querySelectorAll('#realisations-container > div[style*="display:none"]');
             hiddenItems.forEach(item => {
                 item.style.display = 'block';
             });
-            btn.style.display = 'none'; // Cache le bouton après avoir affiché tout
+            btn.style.display = 'none';
         });
     }
 });
-</script>
 
-<script>
 document.addEventListener("DOMContentLoaded", () => {
     const button = document.getElementById("load-more-btn");
 

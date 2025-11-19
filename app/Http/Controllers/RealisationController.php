@@ -35,7 +35,7 @@ class RealisationController extends Controller
         $collection = collect($files);
 
         // Pagination 6 par page
-        $perPage = 6;
+        $perPage = 50;
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
         $currentPageItems = $collection->slice(($currentPage - 1) * $perPage, $perPage)->values();
 
