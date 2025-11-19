@@ -53,22 +53,32 @@
 {{-- Boutons de filtre --}}
 <section class="py-16 max-w-6xl mx-auto px-6">
     <div class="flex justify-center space-x-4 mb-10 flex-wrap gap-3">
-        <a href="{{ route('realisations') }}" 
-           class="px-5 py-2 rounded-lg {{ is_null($category) ? ' bg-blue-600 text-white' : 'border hover:bg-gray-100' }}">
-           Tous
-        </a>
+       
+
+        <a href="#"  
+   class="filter-btn px-5 py-2 rounded-lg {{ is_null($category) ? 'bg-blue-600 text-white' : 'border hover:bg-gray-100' }}"
+   data-category="">
+    Tous
+</a>
+
+
+      
 
        @foreach ($categories as $slug => $label)
-    <a href="{{ route('realisations', ['category' => $slug]) }}"
-       class="px-5 py-2 rounded-lg {{ $category === $slug ? 'bg-blue-600 text-white' : 'border hover:bg-gray-100' }}">
-       {{ $label }}
-    </a>
+
+    <a href="#" 
+   class="filter-btn px-5 py-2 rounded-lg {{ $category === $slug ? 'bg-blue-600 text-white' : 'border hover:bg-gray-100' }}"
+   data-category="{{ $slug }}">
+    {{ $label }}
+</a>
+
+
 @endforeach
 
     </div>
       
     <div id="realisations-container" 
-     class="grid md:grid-cols-4g gap-8">
+     class="grid md:grid-cols-4 gap-8">
 
     @include('partials.realisations-grid', ['files' => $files])
 
@@ -82,9 +92,7 @@
     </div>
 @endif
 
-    
-</div>
-
+  
 </div>
 </section>
 
@@ -105,6 +113,9 @@
 
 
 <script>
+// ===============================
+// 🔵 OUVERTURE DU MODAL
+// ===============================
 function openModal(type, url) {
     const modal = document.getElementById("fileModal");
     const content = document.getElementById("modalContent");
@@ -130,68 +141,134 @@ function openModal(type, url) {
     }
 }
 
+
+// ===============================
+// 🔴 FERMETURE DU MODAL
+// ===============================
 function closeModal() {
     const modal = document.getElementById("fileModal");
     const loadMoreContainer = document.getElementById("load-more-container");
 
     modal.classList.add("hidden");
-    document.body.style.overflow = 'auto'; // restaure le scroll
+    document.body.style.overflow = 'auto';
 
-    if (loadMoreContainer) {
-        loadMoreContainer.style.display = 'block'; // montre à nouveau le bouton
-    }
+    if (loadMoreContainer) loadMoreContainer.style.display = 'block';
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    const btn = document.getElementById('load-more-btn');
-    if (btn) {
-        btn.addEventListener('click', function() {
-            // Ta logique ajax ou affichage pour charger plus
-            // Par exemple :
-            const hiddenItems = document.querySelectorAll('#realisations-container > div[style*="display:none"]');
-            hiddenItems.forEach(item => {
-                item.style.display = 'block';
+// ===============================
+// ⚡ SCRIPT PRINCIPAL
+// ===============================
+document.addEventListener("DOMContentLoaded", () => {
+
+    console.log("SCRIPT OK ✔");
+
+    // =====================================
+    // 🔵 BOUTON LOAD MORE (AJAX)
+    // =====================================
+    const loadMoreBtn = document.getElementById("load-more-btn");
+
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener("click", function () {
+
+            let nextPage = this.getAttribute("data-next-page");
+            let category = "{{ $category ?? '' }}";
+
+            let url = "{{ route('realisations') }}?page=" + nextPage;
+            if (category) url += "&category=" + category;
+
+            fetch(url, {
+                headers: { "X-Requested-With": "XMLHttpRequest" }
+            })
+            .then(res => res.text())
+            .then(html => {
+
+                document.querySelector("#realisations-container")
+                        .insertAdjacentHTML("beforeend", html);
+
+                nextPage = Number(nextPage) + 1;
+                loadMoreBtn.setAttribute("data-next-page", nextPage);
+
+                if (nextPage > {{ $files->lastPage() }}) {
+                    loadMoreBtn.style.display = "none";
+                }
             });
-            btn.style.display = 'none';
         });
     }
-});
 
-document.addEventListener("DOMContentLoaded", () => {
-    const button = document.getElementById("load-more-btn");
+    // =====================================
+    // 🔵 FILTRE PAR CATÉGORIE (AJAX)
+    // =====================================
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
 
-    if (!button) return;
+            let category = this.getAttribute('data-category');
+            let url = "{{ route('realisations') }}";
 
-    button.addEventListener("click", function () {
-        let nextPage = this.getAttribute("data-next-page");
-        let category = "{{ $category ?? '' }}";
+            if (category) url += "?category=" + category;
 
-        let url = "{{ route('realisations') }}?page=" + nextPage;
-        if (category) url += "&category=" + category;
+            fetch(url, {
+                headers: { "X-Requested-With": "XMLHttpRequest" }
+            })
+            .then(res => res.text())
+            .then(html => {
+
+                document.querySelector('#realisations-container').innerHTML = html;
+
+                const button = document.getElementById("load-more-btn");
+
+                if (button) {
+                    button.setAttribute("data-next-page", 2);
+                    button.style.display = "inline-block";
+                }
+            });
+        });
+    });
+
+    // =====================================
+// 🔵 GESTION DES COULEURS DES FILTRES
+// =====================================
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        // Retirer l'état actif de tous les boutons
+        document.querySelectorAll('.filter-btn').forEach(b => {
+            b.classList.remove('bg-blue-600', 'text-white');
+            b.classList.add('border', 'hover:bg-gray-100');
+        });
+
+        // Ajouter l'état actif au bouton cliqué
+        this.classList.add('bg-blue-600', 'text-white');
+        this.classList.remove('border', 'hover:bg-gray-100');
+
+        // Charger les fichiers correspondants
+        let category = this.getAttribute('data-category');
+        let url = "{{ route('realisations') }}";
+
+        if (category) url += "?category=" + category;
 
         fetch(url, {
-            headers: {
-                "X-Requested-With": "XMLHttpRequest"
-            }
+            headers: { "X-Requested-With": "XMLHttpRequest" }
         })
         .then(res => res.text())
         .then(html => {
-            document.querySelector("#realisations-container")
-                .insertAdjacentHTML("beforeend", html);
 
-            // Mettre à jour la page suivante
-            nextPage = Number(nextPage) + 1;
-            this.setAttribute("data-next-page", nextPage);
+            document.querySelector('#realisations-container').innerHTML = html;
 
-            // Si plus de pages → cacher bouton
-            @if ($files->lastPage())
-            if (nextPage > {{ $files->lastPage() }}) {
-                button.style.display = "none";
+            const button = document.getElementById("load-more-btn");
+
+            if (button) {
+                button.setAttribute("data-next-page", 2);
+                button.style.display = "inline-block";
             }
-            @endif
         });
     });
 });
+
+
+});
 </script>
+
 
 @endsection
