@@ -1,0 +1,58 @@
+name: 🚀 Deployment of main l10-v0 
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v3
+
+      - name: 🔐 Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: 🚀 Deploy via SSH
+        run: |
+          ssh -i ~/.ssh/id_rsa -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            cd ${{ secrets.DEPLOY_PATH }}
+            git pull origin main
+
+            echo "📦 Installation des dépendances..."
+            composer2 install --no-interaction --prefer-dist --optimize-autoloader
+
+            echo "🧹 Nettoyage des caches..."
+            # php artisan config:clear
+            # php artisan route:clear
+            # php artisan view:clear
+            # php artisan cache:clear
+            # xxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+            php artisan config:clear
+            php artisan route:clear
+            php artisan view:clear
+            php artisan cache:clear
+            php artisan event:clear
+            php artisan clear-compiled
+
+
+
+            echo "🧬 Exécution des migrations et seeders..."
+            php artisan migrate:refresh --seed --force
+
+            # echo "🚀 Rebuild des caches..."
+            # php artisan config:cache
+            # php artisan route:cache
+            # php artisan view:cache
+
+            echo "✅ Déploiement terminé avec succès."
+
+          EOF
