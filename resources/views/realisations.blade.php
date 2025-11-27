@@ -53,133 +53,222 @@
 {{-- Boutons de filtre --}}
 <section class="py-16 max-w-6xl mx-auto px-6">
     <div class="flex justify-center space-x-4 mb-10 flex-wrap gap-3">
-        <a href="{{ route('realisations') }}" 
-           class="px-5 py-2 rounded-lg {{ is_null($category) ? ' bg-blue-600 text-white' : 'border hover:bg-gray-100' }}">
-           Tous
-        </a>
+       
 
-        @foreach ($categories as $cat)
-            <a href="{{ route('realisations', ['category' => $cat]) }}"
-               class="px-5 py-2 rounded-lg {{ $category === $cat ? 'bg-blue-600 text-white' : 'border hover:bg-gray-100' }}">
-               {{ $cat }}
-            </a>
-        @endforeach
+        <a href="#"  
+   class="filter-btn px-5 py-2 rounded-lg {{ is_null($category) ? 'bg-blue-600 text-white' : 'border hover:bg-gray-100' }}"
+   data-category="">
+    Tous
+</a>
+
+
+      
+
+       @foreach ($categories as $slug => $label)
+
+    <a href="#" 
+   class="filter-btn px-5 py-2 rounded-lg {{ $category === $slug ? 'bg-blue-600 text-white' : 'border hover:bg-gray-100' }}"
+   data-category="{{ $slug }}">
+    {{ $label }}
+</a>
+
+
+@endforeach
+
     </div>
+      
+    <div id="realisations-container" 
+     class="grid md:grid-cols-4 gap-8">
 
-    {{-- Liste des réalisations --}}
-    <div class="grid md:grid-cols-3 gap-8">
-        @forelse ($realisations as $real)
-            <div 
-                class="relative border rounded-lg overflow-hidden shadow-md group cursor-pointer transition-transform duration-300 hover:scale-105"
-                onclick="openModal('{{ $real->file_type }}', '{{ asset('storage/' . $real->file_path) }}')">
+    @include('partials.realisations-grid', ['files' => $files])
 
-                {{-- Miniature selon type --}}
-                @if($real->file_type === 'image')
-                    <img src="{{ asset('storage/' . $real->file_path) }}"
-                         class="w-full h-full object-cover transition duration-300 group-hover:opacity-70">
-
-                @elseif($real->file_type === 'video')
-                    <video class="w-full h-full object-cover transition duration-300 group-hover:opacity-70" muted>
-                        <source src="{{ asset('storage/' . $real->file_path) }}" type="video/mp4">
-                    </video>
-
-                @elseif($real->file_type === 'pdf')
-                    <div class="w-full h-full bg-gray-100 flex flex-col items-center justify-center">
-                        <span class="text-blue-700 text-5xl mb-3">📄</span>
-                        <a href="#" 
-                           onclick="event.stopPropagation(); openModal('pdf', '{{ asset('storage/' . $real->file_path) }}'); return false;"
-                           class="text-blue-600  underline text-sm hover:text-blue-800 z-10">
-                            Voir le document PDF
-                        </a>
-                    </div>
-                @endif
-
-                {{-- Overlay --}}
-                <div class="absolute inset-0 opacity-0 group-hover:opacity-100 flex flex-col justify-center items-center text-center text-white transition-opacity duration-300 px-4 pointer-events-none">
-                    <h3 class="text-xl font-bold mb-2">{{ $real->title }}</h3>
-                    <p class="text-sm">{{ $real->description }}</p>
-                </div>
-            </div>
-        @empty
-            <p class="col-span-3 text-center text-gray-500">Aucune réalisation trouvée pour cette catégorie.</p>
-        @endforelse
+    @if ($files->hasMorePages())
+    <div  id="load-more-container" class="text-center mt-6">
+        <button id="load-more-btn"
+                data-next-page="{{ $files->currentPage() + 1 }}"
+                class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+            Voir plus
+        </button>
     </div>
+@endif
+
+  
+</div>
 </section>
 
-{{-- Modal --}}
-<div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50">
-    <div class="relative bg-white rounded-lg shadow-xl w-[95%] max-w-5xl h-[90vh] overflow-hidden">
+<div id="fileModal" class="hidden fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[9999] p-4">
+    <div class="relative w-full max-w-5xl max-h-[90vh] bg-white rounded-lg overflow-hidden shadow-xl">
 
-        <!-- Bouton fermer -->
-        <button onclick="closeModal()"
-                class="absolute top-3 right-4 text-gray-700 text-4xl font-bold leading-none hover:text-black transition">
-            &times;
+        <!-- Bouton pour fermer -->
+        <button onclick="closeModal()" 
+            class="absolute top-3 right-3 text-white bg-red-600 px-3 py-2 rounded-full text-xl z-50">
+            ✖
         </button>
 
-        <!-- Contenu -->
-        <div id="modal-content" class="w-50 h-50 flex justify-center items-center"></div>
+        <!-- Contenu dynamique -->
+        <div id="modalContent" class="w-full h-full flex items-center justify-center p-4"></div>
     </div>
-</div>
 
-
+ 
 
 
 <script>
-    function openModal(type, url) {
-    const modal = document.getElementById('modal');
-    const content = document.getElementById('modal-content');
+// ===============================
+// 🔵 OUVERTURE DU MODAL
+// ===============================
+function openModal(type, url) {
+    const modal = document.getElementById("fileModal");
+    const content = document.getElementById("modalContent");
+    const loadMoreContainer = document.getElementById("load-more-container");
 
-    let html = '';
+    content.innerHTML = "";
 
-    if (type === 'image') {
-        html = `
-            <img src="${url}" 
-                 class="max-w-[60vw] max-h-[70vh] object-contain rounded-lg shadow-xl cursor-zoom-out"
-                 onclick="closeModal()" />
-        `;
+    if (type === "image") {
+        content.innerHTML = `<img src="${url}" style="max-width:90vw; max-height:70vh; object-fit:contain; border-radius:0.5rem;" />`;
+    } else if (type === "video") {
+        content.innerHTML = `<video controls autoplay playsinline class="max-w-full max-h-[85vh] rounded-lg">
+            <source src="${url}" type="video/mp4">
+        </video>`;
+    } else if (type === "pdf") {
+        content.innerHTML = `<iframe src="${url}" class="w-full h-[100vh]" frameborder="0"></iframe>`;
     }
 
-    else if (type === 'video') {
-        html = `
-            <video controls autoplay 
-                   class="max-w-[60vw] max-h-[70vh] rounded-lg shadow-xl">
-                <source src="${url}" type="video/mp4">
-                Votre navigateur ne supporte pas la vidéo.
-            </video>
-        `;
+    modal.classList.remove("hidden");
+    document.body.style.overflow = 'hidden'; // bloque le scroll derrière modal
+
+    if (loadMoreContainer) {
+        loadMoreContainer.style.display = 'none'; // cache le bouton "Voir plus"
     }
-
-    else if (type === 'pdf') {
-        html = `
-            <iframe src="${url}" class=" w-full h-full  rounded border"></iframe>
-        `;
-    }
-
-    content.innerHTML = html;
-    modal.classList.remove('hidden');
-
-    document.body.style.overflow = 'hidden';
-
-    modal.onclick = function(e) {
-        if (e.target === modal) closeModal();
-    };
-
-    document.onkeydown = function(e) {
-        if (e.key === 'Escape') closeModal();
-    };
 }
 
+
+// ===============================
+// 🔴 FERMETURE DU MODAL
+// ===============================
 function closeModal() {
-    const modal = document.getElementById('modal');
-    const content = document.getElementById('modal-content');
+    const modal = document.getElementById("fileModal");
+    const loadMoreContainer = document.getElementById("load-more-container");
 
-    modal.classList.add('hidden');
-    content.innerHTML = '';
-
+    modal.classList.add("hidden");
     document.body.style.overflow = 'auto';
-    document.onkeydown = null;
+
+    if (loadMoreContainer) loadMoreContainer.style.display = 'block';
 }
 
+// ===============================
+// ⚡ SCRIPT PRINCIPAL
+// ===============================
+document.addEventListener("DOMContentLoaded", () => {
 
+    console.log("SCRIPT OK ✔");
+
+    // =====================================
+    // 🔵 BOUTON LOAD MORE (AJAX)
+    // =====================================
+    const loadMoreBtn = document.getElementById("load-more-btn");
+
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener("click", function () {
+
+            let nextPage = this.getAttribute("data-next-page");
+            let category = "{{ $category ?? '' }}";
+
+            let url = "{{ route('realisations') }}?page=" + nextPage;
+            if (category) url += "&category=" + category;
+
+            fetch(url, {
+                headers: { "X-Requested-With": "XMLHttpRequest" }
+            })
+            .then(res => res.text())
+            .then(html => {
+
+                document.querySelector("#realisations-container")
+                        .insertAdjacentHTML("beforeend", html);
+
+                nextPage = Number(nextPage) + 1;
+                loadMoreBtn.setAttribute("data-next-page", nextPage);
+
+                if (nextPage > {{ $files->lastPage() }}) {
+                    loadMoreBtn.style.display = "none";
+                }
+            });
+        });
+    }
+
+    // =====================================
+    // 🔵 FILTRE PAR CATÉGORIE (AJAX)
+    // =====================================
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            let category = this.getAttribute('data-category');
+            let url = "{{ route('realisations') }}";
+
+            if (category) url += "?category=" + category;
+
+            fetch(url, {
+                headers: { "X-Requested-With": "XMLHttpRequest" }
+            })
+            .then(res => res.text())
+            .then(html => {
+
+                document.querySelector('#realisations-container').innerHTML = html;
+
+                const button = document.getElementById("load-more-btn");
+
+                if (button) {
+                    button.setAttribute("data-next-page", 2);
+                    button.style.display = "inline-block";
+                }
+            });
+        });
+    });
+
+    // =====================================
+// 🔵 GESTION DES COULEURS DES FILTRES
+// =====================================
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        // Retirer l'état actif de tous les boutons
+        document.querySelectorAll('.filter-btn').forEach(b => {
+            b.classList.remove('bg-blue-600', 'text-white');
+            b.classList.add('border', 'hover:bg-gray-100');
+        });
+
+        // Ajouter l'état actif au bouton cliqué
+        this.classList.add('bg-blue-600', 'text-white');
+        this.classList.remove('border', 'hover:bg-gray-100');
+
+        // Charger les fichiers correspondants
+        let category = this.getAttribute('data-category');
+        let url = "{{ route('realisations') }}";
+
+        if (category) url += "?category=" + category;
+
+        fetch(url, {
+            headers: { "X-Requested-With": "XMLHttpRequest" }
+        })
+        .then(res => res.text())
+        .then(html => {
+
+            document.querySelector('#realisations-container').innerHTML = html;
+
+            const button = document.getElementById("load-more-btn");
+
+            if (button) {
+                button.setAttribute("data-next-page", 2);
+                button.style.display = "inline-block";
+            }
+        });
+    });
+});
+
+
+});
 </script>
+
+
 @endsection

@@ -517,7 +517,7 @@
           ],
           [
             'quote' => "Professionnalisme, réactivité et créativité, tout y est. Merci Parfait !",
-            'name' => "Bell'Aube HOUINATO",
+            'name' => "Dr Bell'Aube HOUINATO",
             'role' => "CEO Wakili Subaka et ancien Directeur Régional de Plan International",
             'src' => "images/tools/Bell'Aube.jpg",
           ],

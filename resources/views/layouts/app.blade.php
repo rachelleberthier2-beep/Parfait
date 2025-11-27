@@ -4,10 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1, user-scalable=no">
-    <title>{{ config('app.name') }} - @yield('title')</title>
+    <title>@yield('title', 'Parfaitcommunicationg')</title>
     @vite(['resources/css/app.css', 'resources/css/panneau.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link rel="icon" href="{{ asset('images/tools/fondnoir.png') }}" type="image/png" />
+
 
 
 </head>
@@ -53,13 +55,14 @@
                         class="absolute left-0 -bottom-1 w-full h-0.5  scale-x-0 group-hover:scale-x-100 transition-transform origin-left"
                         style="background-color: #17e5f3;"></span>
                 </a>
-                    
-                <a href="{{ route('login.form') }}" class="relative group text-gray-700">
+                  <a href="{{ route('login.form') }}" class="relative group text-gray-700">
                      Se connecter
                      <span
                         class="absolute left-0 -bottom-1 w-full h-0.5  scale-x-0 group-hover:scale-x-100 transition-transform origin-left"
                         style="background-color: #17e5f3;"></span>
                 </a>
+  
+                
 
 
             </nav>
@@ -85,6 +88,7 @@
             <a href="{{ route('blog') }}" class="block px-6 py-3 border-b border-gray-200 hover:bg-gray-100">Blog</a>
             <a href="{{ route('contact') }}" class="block px-6 py-3 hover:bg-gray-100">Contact</a>
             <a href="{{ route('login.form') }}" class="block px-6 py-3 hover:bg-gray-100">Se connecter </a>
+
                      
                
         </nav>
@@ -109,7 +113,7 @@
 
     {{-- FOOTER --}}
     <footer class="text-gray-300 pt-16" style="background-color: #000000">
-        <div class="max-w-7xl- md:mx-auto- px-6-  gap-x-30-">
+        <div class="max-w-7xl- md:mx-auto- px-6  gap-x-30-">
 
             {{-- Section Call to Action --}}
             <div class="p-10-  mb-16 text-center text-white">
@@ -130,7 +134,7 @@
                     <a href="/" class="inline-block mb-6">
                         <img src="{{ asset('images/tools/Communication original.png') }}" class="w-32 h-auto">
                     </a>
-                    <p class="text-gray-400 max-w-sm leading-relaxed">
+                    <p class="text-gray-400 max-w-sm leading-relaxed ">
                         Création visuelle & gestion de communication digitale, conçues pour booster votre image.
                     </p>
                 </div>
@@ -166,7 +170,7 @@
                 {{-- Contact --}}
                 <div class="md:w-1/3">
                     <h3 class="text-white font-semibold mb-4">Contact</h3>
-                    <p class="mb-2">contact@monsite.com</p>
+                    <p class="mb-2">tozoparfait4@gmail.com</p>
                     <p>+229 01 97 29 41 55</p>
                 </div>
 
