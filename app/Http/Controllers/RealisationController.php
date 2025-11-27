@@ -11,7 +11,7 @@ class RealisationController extends Controller
     public function index(Request $request)
     {
         $categories = [
-            'crea-visuel' => 'Créa visuel',
+            'visuel' => 'Créa visuel',
             'projet-design' => 'Projet design',
             'montage-video' => 'Montage vidéo',
             'campagne-medias' => 'Campagne médias',
