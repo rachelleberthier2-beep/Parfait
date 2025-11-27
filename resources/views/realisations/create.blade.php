@@ -9,59 +9,46 @@
     <form action="{{ route('realisations.store') }}" method="POST" enctype="multipart/form-data" novalidate>
       @csrf
 
-      <h2 class="text-4xl font-extrabold mb-12 text-center text-blue-900 tracking-tight">Ajouter une Réalisation</h2>
+      <h2 class="text-4xl font-extrabold mb-12 text-center text-blue-900 tracking-tight">
+        Ajouter une Réalisation
+      </h2>
 
+      {{-- SELECTION DU DOSSIER --}}
       <div class="mb-8">
-        <label for="title" class="block text-blue-900 font-semibold mb-3 text-lg">Titre <span class="text-red-500">*</span></label>
-        <input
-          type="text"
-          name="title"
-          id="title"
-          placeholder="Entrez le titre"
-          required
-          class="w-full px-5 py-4 rounded-2xl border border-blue-300 focus:outline-none focus:ring-4 focus:ring-blue-400 placeholder-blue-300 text-lg transition duration-300 shadow-sm"
-        />
-      </div>
+        <label for="folder" class="block text-blue-900 font-semibold mb-3 text-lg">
+          Sélectionner un dossier <span class="text-red-500">*</span>
+        </label>
 
-      <div class="mb-8">
-        <label for="category" class="block text-blue-900 font-semibold mb-3 text-lg">Catégorie <span class="text-red-500">*</span></label>
         <select
-          name="category"
-          id="category"
+          name="folder"
+          id="folder"
           required
-          class="w-full px-5 py-4 rounded-2xl border border-blue-300 bg-white focus:outline-none focus:ring-4 focus:ring-blue-400 text-lg transition duration-300 shadow-sm"
+          class="w-full px-5 py-4 rounded-2xl border border-blue-300 bg-white focus:outline-none 
+                 focus:ring-4 focus:ring-blue-400 text-lg transition duration-300 shadow-sm"
         >
-          <option value="" disabled selected>Choisissez une catégorie</option>
-          <option value="Créa visuel">Créa visuel</option>
-          <option value="Montage vidéo">Montage vidéo</option>
-          <option value="Campagne média">Campagne média</option>
-          <option value="Projet design">Projet design</option>
+          <option value="" disabled selected>Choisissez un dossier</option>
+          <option value="crea-visuel">Créa visuel</option>
+          <option value="projet-design">Projet design</option>
+          <option value="montage-video">Montage vidéo</option>
+          <option value="campagne-medias">Campagne médias</option>
+          <option value="impression">Impression</option>
+          <option value="packaging">Packaging</option>
         </select>
       </div>
 
-      <div class="mb-8">
-        <label for="file_type" class="block text-blue-900 font-semibold mb-3 text-lg">Type de fichier <span class="text-red-500">*</span></label>
-        <select
-          name="file_type"
-          id="file_type"
-          required
-          class="w-full px-5 py-4 rounded-2xl border border-blue-300 bg-white focus:outline-none focus:ring-4 focus:ring-blue-400 text-lg transition duration-300 shadow-sm"
-        >
-          <option value="" disabled selected>Choisissez le type de fichier</option>
-          <option value="image">Image</option>
-          <option value="video">Vidéo</option>
-          <option value="pdf">PDF</option>
-        </select>
-      </div>
-
+      {{-- UPLOAD FICHIER --}}
       <div class="mb-10">
-        <label for="file" class="block text-blue-900 font-semibold mb-3 text-lg">Fichier <span class="text-red-500">*</span></label>
+        <label for="file" class="block text-blue-900 font-semibold mb-3 text-lg">
+          Sélectionner un fichier <span class="text-red-500">*</span>
+        </label>
         <input
           type="file"
           name="file"
           id="file"
           required
-          class="w-full border border-blue-300 rounded-2xl cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-400 text-lg transition duration-300 shadow-sm"
+          class="w-full border border-blue-300 rounded-2xl cursor-pointer 
+                 focus:outline-none focus:ring-4 focus:ring-blue-400 
+                 text-lg transition duration-300 shadow-sm"
         />
       </div>
 
@@ -71,6 +58,7 @@
       >
         Ajouter
       </button>
+
     </form>
   </div>
 

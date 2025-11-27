@@ -96,7 +96,7 @@
                     <img src="{{ asset('images/tools/icons8-e.png') }}" alt="Profile" class="md:object-contain w-6 h-6">
 
         </a>
-      <span class="text-gray-600 text-lg md:text-xl">contact@monsite.com</span>
+      <span class="text-gray-600 text-lg md:text-xl">tozoparfait4@gmail.com</span>
     </li>
     <li class="flex items-center space-x-3">
       {{-- Localisation --}}
